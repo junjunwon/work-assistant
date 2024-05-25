@@ -1,27 +1,35 @@
 package com.work.assistant.image.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
+import com.work.assistant.common.converter.LocalDateTimeConverter;
+import lombok.*;
 
+import java.time.LocalDateTime;
+
+@Setter
 @Getter
-@Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@DynamoDBTable(tableName = "Images")
 public class Image {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @DynamoDBHashKey(attributeName = "id")
+    private String id;
 
+    @DynamoDBAttribute(attributeName = "name")
     private String name;
 
+    @DynamoDBAttribute(attributeName = "url")
     private String url;
 
-    public Image(String name, String url) {
+    @DynamoDBTypeConverted(converter = LocalDateTimeConverter.class)
+    private LocalDateTime expiryDate;
+
+    public Image(String id, String name, String url, LocalDateTime expiryDate) {
+        this.id = id;
         this.name = name;
         this.url = url;
+        this.expiryDate = expiryDate;
     }
 }

@@ -2,11 +2,12 @@ package com.work.assistant.image.service;
 
 import com.work.assistant.image.entity.Image;
 import com.work.assistant.image.model.ImageResponseDto;
-import com.work.assistant.repository.ImageRepository;
+import com.work.assistant.repository.dynamo.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,12 +15,17 @@ public class ImageDaoService {
 
     private final ImageRepository imageRepository;
 
+
     public Image save(Image image) {
         return imageRepository.save(image);
 
     }
 
     public List<Image> findAll() {
-        return imageRepository.findAll();
+        return (List<Image>) imageRepository.findAll();
+    }
+
+    public Image findById(String id) {
+        return imageRepository.findById(id).orElseThrow(() -> new RuntimeException());
     }
 }
