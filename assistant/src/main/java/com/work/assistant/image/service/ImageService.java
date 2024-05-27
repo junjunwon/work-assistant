@@ -2,7 +2,9 @@ package com.work.assistant.image.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.work.assistant.common.properties.AwsProperties;
+import com.work.assistant.common.aws.model.PutObjectAwsRequest;
+import com.work.assistant.common.aws.properties.AwsProperties;
+import com.work.assistant.common.util.DateUtil;
 import com.work.assistant.image.entity.Image;
 import com.work.assistant.image.model.ImageResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +17,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +28,7 @@ public class ImageService {
 
     private final ImageDaoService imageDaoService;
     private final AmazonS3 s3Client;
-    private AwsProperties awsProperties;
+    private final AwsProperties awsProperties;
 
     public ImageResponseDto saveImage(MultipartFile file) {
         String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
@@ -37,12 +41,20 @@ public class ImageService {
             e.printStackTrace();
         }
 
-        s3Client.putObject(new PutObjectRequest(awsProperties.getS3BucketName(), fileName, tempFile.toFile()));
+        Date inputExpirationDate = new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(7));
+        s3Client.putObject(
+                new PutObjectAwsRequest(
+                        awsProperties.getS3BucketName(),
+                        fileName,
+                        tempFile.toFile(),
+                        inputExpirationDate
+                )
+        );
 
         URL fileUrl = s3Client.getUrl(awsProperties.getS3BucketName(), fileName);
 
         Image image = new Image(UUID.randomUUID().toString(), fileName,
-                fileUrl.toString(), LocalDateTime.now().plus(7, ChronoUnit.DAYS));
+                fileUrl.toString(), DateUtil.convertToLocalDateTime(inputExpirationDate));
 
         try {
             Files.delete(tempFile);
