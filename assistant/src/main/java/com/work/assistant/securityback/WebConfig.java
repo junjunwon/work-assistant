@@ -1,4 +1,4 @@
-package com.work.assistant.security;
+package com.work.assistant.securityback;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

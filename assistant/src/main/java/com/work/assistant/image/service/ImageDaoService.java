@@ -1,17 +1,15 @@
 package com.work.assistant.image.service;
 
 import com.work.assistant.image.entity.Image;
-import com.work.assistant.image.model.ImageResponseDto;
 import com.work.assistant.repository.dynamo.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ImageDaoService {
+public class ImageDAOService {
 
     private final ImageRepository imageRepository;
 

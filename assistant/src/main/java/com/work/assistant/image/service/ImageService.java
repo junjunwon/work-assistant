@@ -1,7 +1,6 @@
 package com.work.assistant.image.service;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.work.assistant.common.aws.model.PutObjectAwsRequest;
 import com.work.assistant.common.aws.properties.AwsProperties;
 import com.work.assistant.common.util.DateUtil;
@@ -16,7 +15,6 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -26,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class ImageService {
 
-    private final ImageDaoService imageDaoService;
+    private final ImageDAOService imageDaoService;
     private final AmazonS3 s3Client;
     private final AwsProperties awsProperties;
 
