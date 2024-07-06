@@ -1,9 +1,11 @@
 package com.work.assistant.security.jwt;
 
 import com.work.assistant.security.dto.TokenResponse;
+import com.work.assistant.user.entity.UserRoleEnum;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

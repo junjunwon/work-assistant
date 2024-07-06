@@ -1,9 +1,9 @@
 package com.work.assistant.security.service;
 
-import com.elice.agora.common.exception.CustomException;
-import com.elice.agora.common.exception.ExceptionStatus;
-import com.elice.agora.user.entity.User;
-import com.elice.agora.user.repository.UserRepository;
+import com.work.assistant.common.exception.CustomException;
+import com.work.assistant.common.exception.ExceptionStatus;
+import com.work.assistant.user.entity.User;
+import com.work.assistant.repository.jpa.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,7 +1,7 @@
 package com.work.assistant.security.service;
 
-import com.elice.agora.user.entity.User;
-import com.elice.agora.user.entity.UserRoleEnum;
+import com.work.assistant.user.entity.User;
+import com.work.assistant.user.entity.UserRoleEnum;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
