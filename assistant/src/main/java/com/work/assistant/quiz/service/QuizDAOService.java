@@ -20,4 +20,8 @@ public class QuizDAOService {
     public List<Quiz> getQuizList() {
         return quizRepository.findAll();
     }
+
+    public List<Quiz> getQuizzesByRoleId(Long roleId) {
+        return quizRepository.findByJobRoleId(roleId);
+    }
 }

@@ -28,4 +28,12 @@ public class QuizService {
                 .map(QuizResponse::of)
                 .toList();
     }
+
+    @Transactional(readOnly = true)
+    public List<QuizResponse> getQuizzesByRoleId(Long roleId) {
+        List<Quiz> quizList = quizDAOService.getQuizzesByRoleId(roleId);
+        return quizList.stream()
+                .map(QuizResponse::of)
+                .toList();
+    }
 }

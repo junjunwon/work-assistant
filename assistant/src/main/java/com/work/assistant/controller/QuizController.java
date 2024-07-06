@@ -1,5 +1,6 @@
 package com.work.assistant.controller;
 
+import com.work.assistant.quiz.entity.Quiz;
 import com.work.assistant.quiz.model.QuizRequest;
 import com.work.assistant.quiz.model.QuizResponse;
 import com.work.assistant.quiz.service.QuizService;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/api/quiz")
+@RequestMapping("/api/public/quiz")
 @RestController
 @RequiredArgsConstructor
 public class QuizController {
@@ -25,5 +26,10 @@ public class QuizController {
     @GetMapping("")
     public List<QuizResponse> getQuizList() {
         return quizService.getQuizList();
+    }
+
+    @GetMapping("/{roleId}")
+    public ResponseEntity<List<QuizResponse>> getQuizzesByRoleId(@PathVariable Long roleId) {
+        return ResponseEntity.ok(quizService.getQuizzesByRoleId(roleId));
     }
 }

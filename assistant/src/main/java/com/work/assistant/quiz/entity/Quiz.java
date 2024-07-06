@@ -1,10 +1,9 @@
 package com.work.assistant.quiz.entity;
 
+import com.work.assistant.common.audit.Auditing;
+import com.work.assistant.job.entity.JobRole;
 import com.work.assistant.quiz.model.QuizRequest;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Quiz {
+public class Quiz extends Auditing {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +20,10 @@ public class Quiz {
     private String question;
 
     private String answer;
+
+    @ManyToOne
+    @JoinColumn(name = "job_role_id")
+    private JobRole jobRole;
 
     public Quiz(String question, String answer) {
         this.question = question;
