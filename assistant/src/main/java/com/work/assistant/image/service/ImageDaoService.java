@@ -13,7 +13,6 @@ public class ImageDAOService {
 
     private final ImageRepository imageRepository;
 
-
     public Image save(Image image) {
         return imageRepository.save(image);
 

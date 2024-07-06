@@ -1,13 +1,13 @@
 package com.work.assistant.controller;
 
 import com.work.assistant.quiz.model.QuizRequest;
+import com.work.assistant.quiz.model.QuizResponse;
 import com.work.assistant.quiz.service.QuizService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/api/quiz")
 @RestController
@@ -16,8 +16,14 @@ public class QuizController {
 
     private final QuizService quizService;
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity registerQuiz(@RequestBody QuizRequest quizRequest) {
-        return ResponseEntity.ok(quizService.registerQuiz(quizRequest));
+        quizService.registerQuiz(quizRequest);
+        return ResponseEntity.ok("퀴즈 등록 성공");
+    }
+
+    @GetMapping("")
+    public List<QuizResponse> getQuizList() {
+        return quizService.getQuizList();
     }
 }
