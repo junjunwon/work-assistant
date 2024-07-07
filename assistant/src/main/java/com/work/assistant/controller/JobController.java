@@ -1,6 +1,5 @@
 package com.work.assistant.controller;
 
-import com.work.assistant.job.entity.Job;
 import com.work.assistant.job.model.JobResponse;
 import com.work.assistant.job.service.JobService;
 import lombok.RequiredArgsConstructor;
