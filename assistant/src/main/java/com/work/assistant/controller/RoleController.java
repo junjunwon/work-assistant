@@ -1,7 +1,7 @@
 package com.work.assistant.controller;
 
-import com.work.assistant.job.model.JobRoleResponse;
-import com.work.assistant.job.service.JobRoleService;
+import com.work.assistant.job.model.RoleResponse;
+import com.work.assistant.job.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +14,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/public/roles")
 @RequiredArgsConstructor
-public class JobRoleController {
-    private final JobRoleService jobRoleService;
+public class RoleController {
+
+    private final RoleService roleService;
 
     @GetMapping("/{jobId}")
-    public ResponseEntity<List<JobRoleResponse>> getRolesByJobId(@PathVariable Long jobId) {
-        return ResponseEntity.ok(jobRoleService.getJobRolesByJobId(jobId));
+    public ResponseEntity<List<RoleResponse>> getRolesByJobId(@PathVariable Long jobId) {
+        return ResponseEntity.ok(roleService.getRolesByJobId(jobId));
     }
 }

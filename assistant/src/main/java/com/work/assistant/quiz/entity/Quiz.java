@@ -1,7 +1,7 @@
 package com.work.assistant.quiz.entity;
 
 import com.work.assistant.common.audit.Auditing;
-import com.work.assistant.job.entity.JobRole;
+import com.work.assistant.job.entity.Role;
 import com.work.assistant.quiz.model.QuizRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -22,8 +22,8 @@ public class Quiz extends Auditing {
     private String answer;
 
     @ManyToOne
-    @JoinColumn(name = "job_role_id")
-    private JobRole jobRole;
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     public Quiz(String question, String answer) {
         this.question = question;

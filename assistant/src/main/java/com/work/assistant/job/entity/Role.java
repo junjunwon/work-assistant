@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class JobRole extends Auditing  {
+public class Role extends Auditing  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
