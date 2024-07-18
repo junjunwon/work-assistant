@@ -16,7 +16,7 @@ public class RoleService {
 
     @Transactional(readOnly = true)
     public List<RoleResponse> getRolesByJobId(Long jobId) {
-        List<Role> role = roleDAOService.getJobRolesByJobId(jobId);
+        List<Role> role = roleDAOService.getRolesByJobId(jobId);
         return role.stream()
                 .map(RoleResponse::of)
                 .toList();

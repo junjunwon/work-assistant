@@ -27,7 +27,13 @@ public enum ExceptionStatus {
     WRONG_DATE(400, "현재보다 과거의 날짜입니다. 현재 혹은 미래의 날짜로 다시 입력하세요."),
 
     ALREADY_VOTED(409, "이미 투표하였습니다."),
-    EXPIRED_VOTE_DATE(410, "투표 기간이 지나 더 이상 투표할 수 없습니다.")
+    EXPIRED_VOTE_DATE(410, "투표 기간이 지나 더 이상 투표할 수 없습니다."),
+
+    /**
+     * interview
+     */
+    WRONG_JOB(404, "직종이 존재하지 않습니다."),
+    WRONG_ROLE(404, "직무가 존재하지 않습니다."),
     ;
 
     private final int StatusCode;
