@@ -4,44 +4,31 @@
     <p v-if="currentQuestion">{{ currentQuestion.question }}</p>
     <p v-else>로딩 중...</p>
     <input v-if="currentQuestion" type="text" v-model="answer" placeholder="답변을 입력하세요" />
-    <button v-if="currentQuestion" @click="nextQuestion">다음 질문</button>
+    <button v-if="currentQuestion" @click="nextQuestionMethod">다음 질문</button>
   </div>
 </template>
 
 <script>
-import axios from '../../plugins/axios';
+import { mapState, mapActions, mapGetters } from 'vuex';
 
 export default {
-  name: 'MockInterview',
-  props: ['role'],
   data() {
     return {
-      questions: [],
-      currentQuestionIndex: 0,
       answer: ''
     };
   },
-  async created() {
-    try {
-      const response = await axios.get(`/public/quiz/${this.role.id}`);
-      this.questions = response.data;
-      console.log(this.questions);
-    } catch (error) {
-      console.error('Error fetching quizzes:', error);
-    }
-  },
   computed: {
-    currentQuestion() {
-      return this.questions[this.currentQuestionIndex];
-    }
+    ...mapState(['interviewQuestions', 'currentQuestionIndex']),
+    ...mapGetters(['currentQuestion'])
   },
   methods: {
-    nextQuestion() {
-      if (this.currentQuestionIndex < this.questions.length - 1) {
-        this.currentQuestionIndex++;
+    ...mapActions(['nextQuestion']),
+    nextQuestionMethod() {
+      if (this.currentQuestionIndex < this.interviewQuestions.length - 1) {
+        this.nextQuestion();
         this.answer = '';
       } else {
-        this.$emit('interviewFinished');
+        this.$router.push({ name: 'InterviewResult' });
       }
     }
   }

@@ -3,7 +3,7 @@
     <h2>나만의 면접트레이너에 오신 걸 환영합니다.</h2>
     <p>직군을 선택해주세요.</p>
     <div v-for="job in jobs" :key="job.id">
-      <button @click="selectJob(job)">{{ job.title }}</button>
+      <button @click="selectJobMethod(job)">{{ job.title }}</button>
     </div>
 
     <div>
@@ -16,6 +16,7 @@
 
 <script>
 import axios from '../../plugins/axios';
+import { mapActions } from 'vuex';
 
 export default {
   data() {
@@ -29,15 +30,16 @@ export default {
   async created() {
     try {
       const response = await axios.get('/public/jobs');
-      console.log(response);
       this.jobs = response.data; // 응답 데이터를 파싱하여 jobs 배열에 저장
     } catch (error) {
       console.error('Error fetching jobs:', error);
     }
   },
   methods: {
-    selectJob(job) {
-      this.$emit('jobSelected', job);
+    ...mapActions(['selectJob']),
+    selectJobMethod(job) {
+      this.selectJob(job);
+      this.$router.push({ name: 'RoleSelection' });
     },
     async startRecording() {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
