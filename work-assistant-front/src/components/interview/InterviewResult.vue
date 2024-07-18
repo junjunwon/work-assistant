@@ -21,12 +21,23 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['resetState']),
-    showResult() {
+    ...mapActions(['resetState', 'saveInterviewResults']),
+    async showResult() {
       this.showingResult = true;
     },
-    downloadFeedback() {
-      alert('피드백 다운로드는 유료 서비스입니다.');
+    async downloadFeedback() {
+      const result = await this.saveInterviewResults();
+      if (result) {
+        const blob = new Blob([JSON.stringify(result)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'interview_results.json';
+        a.click();
+        URL.revokeObjectURL(url);
+      } else {
+        alert('피드백 다운로드 중 오류가 발생했습니다.');
+      }
     },
     restartInterview() {
       this.resetState();

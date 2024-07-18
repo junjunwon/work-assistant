@@ -14,16 +14,9 @@ export default {
     ...mapState(['selectedRole'])
   },
   methods: {
-    ...mapActions(['loadInterviewQuestions', 'resetInterview']),
+    ...mapActions(['createSession', 'loadInterviewQuestions', 'resetInterview']),
     async startInterview() {
-      // Mock data
-      const questions = [
-        { question: 'Tell me about yourself.' },
-        { question: 'Why do you want to work here?' },
-        // Add more questions as needed
-      ];
-
-      this.loadInterviewQuestions(questions);
+      await this.createSession();
       this.resetInterview();
       this.$router.push({ name: 'MockInterview' });
     }
