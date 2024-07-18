@@ -1,5 +1,9 @@
 package com.work.assistant.interview.entity;
 
+/**
+ * 각 면접 세션 동안의 질문과 답변을 저장하는 엔티티
+ */
+
 import com.work.assistant.common.audit.Auditing;
 import com.work.assistant.job.entity.Job;
 import com.work.assistant.job.entity.Role;
