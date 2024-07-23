@@ -91,10 +91,10 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-            .allowedOrigins("*")
+            .allowedOrigins("http://52.78.114.159", "http://localhost", "http://ec2-52-78-114-159.ap-northeast-2.compute.amazonaws.com")
             .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD")
             .allowedOriginPatterns("*")
-            .exposedHeaders("Authorization");
+            .allowedHeaders("Authorization", "Content-Type");
     }
 
     @Bean
