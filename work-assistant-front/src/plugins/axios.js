@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'http://ec2-52-78-114-159.ap-northeast-2.compute.amazonaws.com/api',
+    baseURL: process.env.VUE_APP_API_BASE_URL+'/api',
     headers: {
         'Content-Type': 'application/json'
     }

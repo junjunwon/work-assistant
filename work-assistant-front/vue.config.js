@@ -1,11 +1,14 @@
+const path = require('path');
 const { defineConfig } = require('@vue/cli-service')
+
 module.exports = defineConfig({
   transpileDependencies: true,
+  outputDir: path.resolve(__dirname, '../assistant/src/main/resources/static/'),
   devServer: {
-    port: 3000, // 원하는 포트 번호로 변경합니다.
+    port: process.env.VUE_APP_PORT,
     proxy: {
       '/api': {
-        target: 'http://ec2-52-78-114-159.ap-northeast-2.compute.amazonaws.com',
+        target: process.env.VUE_APP_API_BASE_URL,
       },
     }
   }
