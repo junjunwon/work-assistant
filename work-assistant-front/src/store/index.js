@@ -1,4 +1,5 @@
 import { createStore } from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
 import axios from '../plugins/axios';
 
 const store = createStore({
@@ -91,7 +92,10 @@ const store = createStore({
     currentQuestion(state) {
       return state.interviewQuestions[state.currentQuestionIndex] || null;
     }
-  }
+  },
+  plugins: [createPersistedState({
+    storage: window.localStorage,
+  })],
 });
 
 export default store;
