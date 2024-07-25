@@ -1,9 +1,11 @@
 <template>
-  <div>
-    <h2 v-if="selectedJob">{{ selectedJob.title }} 직군의 상세 직무를 선택해주세요.</h2>
-    <h2 v-else>Loading...</h2>
-    <div v-for="role in roles" :key="role.id">
-      <button @click="selectRoleMethod(role)">{{ role.title }}</button>
+  <div class="container">
+    <div class="card">
+      <h2 v-if="selectedJob">{{ selectedJob.title }} 직군의 상세 직무를 선택해주세요.</h2>
+      <h2 v-else>Loading...</h2>
+      <div v-for="role in roles" :key="role.id">
+        <button @click="selectRoleMethod(role)">{{ role.title }}</button>
+      </div>
     </div>
   </div>
 </template>

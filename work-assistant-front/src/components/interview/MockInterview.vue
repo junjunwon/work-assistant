@@ -1,10 +1,13 @@
 <template>
-  <div>
-    <h2>면접 진행 중...</h2>
-    <p v-if="currentQuestion">{{ currentQuestion.question }}</p>
-    <p v-else>로딩 중...</p>
-    <input v-if="currentQuestion" type="text" v-model="answer" @input="updateAnswer" placeholder="답변을 입력하세요" />
-    <button v-if="currentQuestion" @click="submitAnswer">다음 질문</button>
+  <div class="container">
+    <div class="card">
+      <h2>면접 진행 중...</h2>
+      <p v-if="currentQuestion">{{ currentQuestion.question }}</p>
+      <p v-else>로딩 중...</p>
+      <input v-if="currentQuestion" type="text" v-model="answer" @input="updateAnswer" placeholder="답변을 입력하세요" />
+      <button v-if="currentQuestion" @click="submitAnswer">다음 질문</button>
+      <button v-if="currentQuestion" @click="stopAndMoveToResult">면접 결과보기</button>
+    </div>
   </div>
 </template>
 
@@ -40,6 +43,10 @@ export default {
       } else {
         this.$router.push({ name: 'InterviewResult' });
       }
+    },
+    stopAndMoveToResult() {
+      this.updateAnswer();
+      this.$router.push({ name: 'InterviewResult' });
     }
   },
   async created() {

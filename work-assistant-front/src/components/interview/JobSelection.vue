@@ -1,15 +1,17 @@
 <template>
-  <div>
-    <h2>나만의 면접트레이너에 오신 걸 환영합니다.</h2>
-    <p>직군을 선택해주세요.</p>
-    <div v-for="job in jobs" :key="job.id">
-      <button @click="selectJobMethod(job)">{{ job.title }}</button>
-    </div>
+  <div class="container">
+    <div class="card">
+      <h2>나만의 면접트레이너에 오신 걸 환영합니다.</h2>
+      <p>직군을 선택해주세요.</p>
+      <div v-for="job in jobs" :key="job.id">
+        <button @click="selectJobMethod(job)">{{ job.title }}</button>
+      </div>
 
-    <div>
-      <button @click="startRecording" :disabled="isRecording">녹화 시작</button>
-      <button @click="stopRecording" :disabled="!isRecording">녹화 중지</button>
-      <button @click="playRecording" :disabled="!recordedChunks.length">재생</button>
+      <div>
+        <button @click="startRecording" :disabled="isRecording">녹화 시작</button>
+        <button @click="stopRecording" :disabled="!isRecording">녹화 중지</button>
+        <button @click="playRecording" :disabled="!recordedChunks.length">재생</button>
+      </div>
     </div>
   </div>
 </template>
