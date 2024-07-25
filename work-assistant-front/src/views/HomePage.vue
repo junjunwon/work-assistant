@@ -5,8 +5,8 @@
       <h2>라이프타임 면접 준비 플랫폼</h2>
     </div>
     <div class="card">
-      <p>This is a sample card component styled with global CSS.</p>
-      <button class="button" @click="goToJobSelection">Click Me</button>
+      <button class="button" @click="goToJobSelection">직무별 면접보러가기</button>
+      <button class="button" @click="goToCompanySelection">회사별 기출면접보러가기</button>
     </div>
   </div>
 </template>
@@ -16,6 +16,9 @@ export default {
   methods: {
     goToJobSelection() {
       this.$router.push({ name: 'JobSelection' });
+    },
+    goToCompanySelection() {
+      alert("준비중입니다");
     }
   }
 };
