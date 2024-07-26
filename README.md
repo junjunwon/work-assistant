@@ -1,5 +1,8 @@
 # 퍼스널면접코치 (my-interview-coach)
 
+## 서비스 링크
+https://myinterviewscoach.com/
+
 ## 아이디어 시작점
 
 개인 타겟으로 로그인이 필요하지 않은 가벼운 기능과 로그인을 해야하는 기능을 분리한다. 
