@@ -1,5 +1,6 @@
 package com.work.assistant.interview.service;
 
+import com.work.assistant.interview.entity.InterviewCategory;
 import com.work.assistant.interview.entity.InterviewQuestion;
 import com.work.assistant.interview.model.InterviewQuestionRequest;
 import com.work.assistant.interview.model.InterviewQuestionResponse;
@@ -14,16 +15,18 @@ import java.util.List;
 public class InterviewQuestionService {
 
     private final InterviewQuestionDAOService interviewQuestionDAOService;
+    private final InterviewCategoryDAOService interviewCategoryDAOService;
 
     @Transactional
-    public void registerQuiz(InterviewQuestionRequest interviewQuestionRequest) {
-        InterviewQuestion interviewQuestion = InterviewQuestion.create(interviewQuestionRequest);
-        interviewQuestionDAOService.registerQuiz(interviewQuestion);
+    public void saveInterviewQuestion(InterviewQuestionRequest interviewQuestionRequest) {
+        InterviewCategory interviewCategory = interviewCategoryDAOService.findById(interviewQuestionRequest.getCategoryId());
+        InterviewQuestion interviewQuestion = InterviewQuestion.create(interviewQuestionRequest, interviewCategory);
+        interviewQuestionDAOService.saveInterviewQuestion(interviewQuestion);
     }
 
     @Transactional(readOnly = true)
-    public List<InterviewQuestionResponse> getQuizList() {
-        List<InterviewQuestion> interviewQuestionList = interviewQuestionDAOService.getQuizList();
+    public List<InterviewQuestionResponse> findInterviewQuestions() {
+        List<InterviewQuestion> interviewQuestionList = interviewQuestionDAOService.findInterviewQuestions();
         return interviewQuestionList.stream()
                 .map(InterviewQuestionResponse::of)
                 .toList();
@@ -31,7 +34,7 @@ public class InterviewQuestionService {
 
     @Transactional(readOnly = true)
     public List<InterviewQuestionResponse> getQuizzesByRoleId(Long roleId) {
-        List<InterviewQuestion> interviewQuestionList = interviewQuestionDAOService.getQuizzesByRoleId(roleId);
+        List<InterviewQuestion> interviewQuestionList = interviewQuestionDAOService.findInterviewQuestionsByRoleId(roleId);
         return interviewQuestionList.stream()
                 .map(InterviewQuestionResponse::of)
                 .toList();

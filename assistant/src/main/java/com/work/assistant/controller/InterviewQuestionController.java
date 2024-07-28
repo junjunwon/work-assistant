@@ -18,13 +18,13 @@ public class InterviewQuestionController {
 
     @PostMapping("")
     public ResponseEntity saveInterviewQuestion(@RequestBody InterviewQuestionRequest interviewQuestionRequest) {
-        interviewQuestionService.registerQuiz(interviewQuestionRequest);
+        interviewQuestionService.saveInterviewQuestion(interviewQuestionRequest);
         return ResponseEntity.ok("질문 등록 성공");
     }
 
     @GetMapping("")
     public List<InterviewQuestionResponse> getInterviewQuestions() {
-        return interviewQuestionService.getQuizList();
+        return interviewQuestionService.findInterviewQuestions();
     }
 
     @GetMapping("/{roleId}")

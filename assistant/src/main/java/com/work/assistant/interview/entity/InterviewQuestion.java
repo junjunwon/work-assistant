@@ -30,12 +30,20 @@ public class InterviewQuestion extends Auditing {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    public InterviewQuestion(String question, String idealAnswer) {
+    @ManyToOne
+    @JoinColumn(name = "interview_category_id")
+    private InterviewCategory interviewCategory;
+
+    public InterviewQuestion(String question, String idealAnswer, InterviewCategory interviewCategory) {
         this.question = question;
         this.idealAnswer = idealAnswer;
+        this.interviewCategory = interviewCategory;
     }
 
-    public static InterviewQuestion create(InterviewQuestionRequest interviewQuestionRequest) {
-        return new InterviewQuestion(interviewQuestionRequest.getQuestion(), interviewQuestionRequest.getIdealAnswer());
+    public static InterviewQuestion create(InterviewQuestionRequest interviewQuestionRequest, InterviewCategory interviewCategory) {
+        return new InterviewQuestion(interviewQuestionRequest.getQuestion(),
+                interviewQuestionRequest.getIdealAnswer(),
+                interviewCategory
+        );
     }
 }

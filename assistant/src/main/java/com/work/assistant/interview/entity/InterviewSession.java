@@ -20,6 +20,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -36,6 +38,9 @@ public class InterviewSession extends Auditing {
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
+
+    @OneToMany(mappedBy = "interviewSession")
+    private List<InterviewAnswer> interviewAnswers;
 
     public InterviewSession(Job job, Role role) {
         this.job = job;

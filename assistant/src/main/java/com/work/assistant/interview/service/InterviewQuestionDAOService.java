@@ -1,7 +1,7 @@
 package com.work.assistant.interview.service;
 
 import com.work.assistant.interview.entity.InterviewQuestion;
-import com.work.assistant.repository.jpa.QuizRepository;
+import com.work.assistant.repository.jpa.InterviewQuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -10,17 +10,17 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class InterviewQuestionDAOService {
-    private final QuizRepository quizRepository;
+    private final InterviewQuestionRepository interviewQuestionRepository;
 
-    public void registerQuiz(InterviewQuestion interviewQuestion) {
-        quizRepository.save(interviewQuestion);
+    public void saveInterviewQuestion(InterviewQuestion interviewQuestion) {
+        interviewQuestionRepository.save(interviewQuestion);
     }
 
-    public List<InterviewQuestion> getQuizList() {
-        return quizRepository.findAll();
+    public List<InterviewQuestion> findInterviewQuestions() {
+        return interviewQuestionRepository.findAll();
     }
 
-    public List<InterviewQuestion> getQuizzesByRoleId(Long roleId) {
-        return quizRepository.findByRoleId(roleId);
+    public List<InterviewQuestion> findInterviewQuestionsByRoleId(Long roleId) {
+        return interviewQuestionRepository.findByRoleId(roleId);
     }
 }

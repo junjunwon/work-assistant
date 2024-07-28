@@ -34,6 +34,7 @@ public enum ExceptionStatus {
      */
     WRONG_JOB(404, "직종이 존재하지 않습니다."),
     WRONG_ROLE(404, "직무가 존재하지 않습니다."),
+    WRONG_CATEGORY(404, "질문 카테고리가 존재하지 않습니다.")
     ;
 
     private final int StatusCode;

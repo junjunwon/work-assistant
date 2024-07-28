@@ -21,7 +21,7 @@ public class InterviewSessionController {
         return ResponseEntity.ok(interviewSessionService.save(sessionRequest));
     }
 
-    //코드개선 필요
+    //코드개선 필요 -> 세션을 저장하면 답도 같이 저장되어야하는거 아닌가? (답은 또 질문 id를 가지고 있어서)
     @PostMapping("/{sessionId}/answers")
     public ResponseEntity saveAnswers(@PathVariable int sessionId, @RequestBody List<InterviewAnswer> answers) {
         interviewSessionService.saveAnswers(sessionId, answers);

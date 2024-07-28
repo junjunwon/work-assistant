@@ -5,8 +5,6 @@ package com.work.assistant.interview.entity;
  */
 
 import com.work.assistant.common.audit.Auditing;
-import com.work.assistant.job.entity.Job;
-import com.work.assistant.job.entity.Role;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -22,11 +20,11 @@ public class InterviewAnswer extends Auditing {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "session_id", nullable = false)
-    private InterviewSession session;
+    @JoinColumn(name = "interview_session_id", nullable = false)
+    private InterviewSession interviewSession;
 
     @ManyToOne
-    @JoinColumn(name = "question_id", nullable = false)
+    @JoinColumn(name = "interview_question_id", nullable = false)
     private InterviewQuestion question;
 
     @Column(nullable = false)
