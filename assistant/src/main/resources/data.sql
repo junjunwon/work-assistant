@@ -1,4 +1,3 @@
--- Job 데이터 삽입
 INSERT INTO job (id, title, created_at, updated_at, created_by, updated_by) VALUES (1, 'Design', NOW(), NOW(), 1, 1);
 INSERT INTO job (id, title, created_at, updated_at, created_by, updated_by) VALUES (2, 'Development', NOW(), NOW(), 1, 1);
 INSERT INTO job (id, title, created_at, updated_at, created_by, updated_by) VALUES (3, 'Planning', NOW(), NOW(), 1, 1);
