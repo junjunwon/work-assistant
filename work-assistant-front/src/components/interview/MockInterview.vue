@@ -2,8 +2,9 @@
   <div class="container">
     <div class="card">
       <h2>면접 진행 중...</h2>
-      <p v-if="currentQuestion">{{ currentQuestion.question }}</p>
+      <p v-if="currentQuestion">{{ currentQuestion.question }} <button class="secondary" @click="generateSpeech" >음성</button></p>
       <p v-else>로딩 중...</p>
+
       <input v-if="currentQuestion" type="text" v-model="answer" @input="updateAnswer" placeholder="답변을 입력하세요" />
       <button class="primary" v-if="currentQuestion" @click="submitAnswer">다음 질문</button>
       <button class="primary" v-if="currentQuestion" @click="stopAndMoveToResult">면접 결과보기</button>
@@ -18,7 +19,8 @@ import { mapState, mapActions, mapGetters } from 'vuex';
 export default {
   data() {
     return {
-      answer: ''
+      answer: '',
+      synth: window.speechSynthesis
     };
   },
   computed: {
@@ -47,6 +49,14 @@ export default {
     stopAndMoveToResult() {
       this.updateAnswer();
       this.$router.push({ name: 'InterviewResult' });
+    },
+    generateSpeech() {
+      const text = this.currentQuestion.question;
+      this.textToSpeech(text);
+    },
+    textToSpeech(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      this.synth.speak(utterance);
     }
   },
   async created() {
