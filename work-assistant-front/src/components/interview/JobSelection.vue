@@ -6,11 +6,10 @@
       <div v-for="job in jobs" :key="job.id">
         <button class="primary" @click="selectJobMethod(job)">{{ job.title }}</button>
       </div>
-
       <div>
-        <button class="primary" @click="startRecording" :disabled="isRecording">녹화 시작</button>
-        <button class="primary" @click="stopRecording" :disabled="!isRecording">녹화 중지</button>
-        <button class="primary" @click="playRecording" :disabled="!recordedChunks.length">재생</button>
+        <button id="btn-start-recording" :disabled="disabled" @click="startRec" class="primary">녹화시작</button>
+        <button id="btn-stop-recording" :disabled="!disabled" @click="stopRec" class="primary">녹화중지</button>
+        <video controls autoplay playsinline ref="video" height="500" width="700"></video>
       </div>
     </div>
   </div>
@@ -19,14 +18,14 @@
 <script>
 import axios from '../../plugins/axios';
 import { mapActions } from 'vuex';
+import RecordRTC from "recordrtc";
 
 export default {
   data() {
     return {
       jobs: [],
-      mediaRecorder: null,
-      recordedChunks: [],
-      isRecording: false
+      recorder: null,
+      disabled: false
     };
   },
   async created() {
@@ -43,32 +42,49 @@ export default {
       this.selectJob(job);
       this.$router.push({ name: 'RoleSelection' });
     },
-    async startRecording() {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
-      this.mediaRecorder = new MediaRecorder(stream);
+    startRec() {
+      this.disabled = true;
+      this.captureCamera(camera => {
+        const video = this.$refs["video"];
+        video.muted = true;
+        video.volume = 0;
+        video.srcObject = camera;
+        this.recorder = RecordRTC(camera, {
+          type: "video"
+        });
+        this.recorder.startRecording();
+        this.recorder.camera = camera;
 
-      this.mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          this.recordedChunks.push(event.data);
-        }
-      };
+        this.disabled = true;
+      });
+    },
+    stopRec() {
+      this.disabled = false;
+      this.recorder.stopRecording(this.stopRecordingCallback);
+    },
+    captureCamera(callback) {
+      navigator.mediaDevices
+          .getUserMedia({ audio: true, video: true })
+          .then(function(camera) {
+            callback(camera);
+          })
+          .catch(function(error) {
+            alert("Unable to capture your camera. Please check console logs.");
+            console.error(error);
+          });
+    },
+    stopRecordingCallback() {
+      const video = this.$refs["video"];
+      video.srcObject = null;
+      video.muted = false;
+      video.volume = 1;
+      video.src = URL.createObjectURL(this.recorder.getBlob());
 
-      this.mediaRecorder.start();
-      this.isRecording = true;
+      this.recorder.camera.stop();
+      this.recorder.destroy();
+      this.recorder = null;
     },
-    stopRecording() {
-      this.mediaRecorder.stop();
-      this.isRecording = false;
-    },
-    playRecording() {
-      const blob = new Blob(this.recordedChunks, { type: 'video/webm' });
-      const url = URL.createObjectURL(blob);
-      const video = document.createElement('video');
-      video.src = url;
-      video.controls = true;
-      video.play();
-      document.body.appendChild(video);
-    }
+
   }
 };
 </script>
