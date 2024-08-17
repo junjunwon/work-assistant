@@ -12,10 +12,21 @@ INSERT INTO role (id, title, job_id, created_at, updated_at, created_by, updated
 INSERT INTO role (id, title, job_id, created_at, updated_at, created_by, updated_by) VALUES (6, 'Project Management', 3, NOW(), NOW(), 1, 1);
 INSERT INTO role (id, title, job_id, created_at, updated_at, created_by, updated_by) VALUES (7, 'Video Editing', 4, NOW(), NOW(), 1, 1);
 
+-- 새로운 카테고리 추가
 INSERT INTO interview_category (id, name) VALUES
                                               (1, 'spring'),
                                               (2, 'network'),
-                                              (3, 'java');
+                                              (3, 'java'),
+                                              (4, 'HTML/CSS'),
+                                              (5, 'JavaScript'),
+                                              (6, 'Performance Optimization'),
+                                              (7, 'System Design'),
+                                              (8, 'Mobile Development'),
+                                              (9, 'UI/UX Principles'),
+                                              (10, 'Graphic Design Basics'),
+                                              (11, 'Project Management'),
+                                              (12, 'Video Editing Techniques');
+
 
 -- Quiz 데이터 삽입
 INSERT INTO interview_question (id, question, ideal_answer, role_id, interview_category_id,
@@ -57,3 +68,95 @@ INSERT INTO interview_question (id, question, ideal_answer, role_id, interview_c
                 (35, 'How Does Spring 5 Integrate With JDK 9 Modularity?', 'In Spring 5, everything has been modularized. This way, we won’t be forced to import jars that may not have the functionalities we’re looking for.', 2, 1, NOW(), NOW(), 1, 1),
                 (36, 'Can We Use Both Web MVC and WebFlux in the Same Application?', 'As of now, Spring Boot will only allow either Spring MVC or Spring WebFlux, as Spring Boot tries to auto-configure the context depending on the dependencies that exist in its classpath. Also, Spring MVC cannot run on Netty. Moreover, MVC is a blocking paradigm and WebFlux is a non-blocking style. So, we shouldn’t be mixing both together because they serve different purposes.', 2, 1, NOW(), NOW(), 1, 1);
 
+-- Frontend 관련 질문 (role_id = 1)
+INSERT INTO interview_question (id, question, ideal_answer, role_id, interview_category_id, created_at, updated_at, created_by, updated_by) VALUES
+                (37, 'Explain how the box model works in CSS.', 'The box model consists of margins, borders, padding, and the content itself.', 1, 4, NOW(), NOW(), 1, 1),
+                (38, 'How do you optimize a webpage for faster rendering?', 'Optimization techniques include minification of CSS and JS files, image compression, and lazy loading.', 1, 6, NOW(), NOW(), 1, 1),
+                (39, 'What is the difference between responsive and adaptive design?', 'Responsive design adjusts layout dynamically, whereas adaptive design uses predefined layouts.', 1, 9, NOW(), NOW(), 1, 1),
+                (40, 'How does flexbox differ from grid layout in CSS?', 'Flexbox is a one-dimensional layout model, while grid layout is two-dimensional.', 1, 4, NOW(), NOW(), 1, 1),
+                (41, 'Explain how event delegation works in JavaScript.', 'Event delegation allows you to attach a single event listener to a parent element to manage events on child elements.', 1, 5, NOW(), NOW(), 1, 1),
+                (42, 'What are the benefits of using a frontend framework like Vue.js or React?', 'Frameworks provide structure, reusable components, and efficient data binding.', 1, 5, NOW(), NOW(), 1, 1),
+                (43, 'How do you manage state in a Vue.js application?', 'State management in Vue.js can be handled using Vuex for centralized state management.', 1, 5, NOW(), NOW(), 1, 1),
+                (44, 'What is Cross-Origin Resource Sharing (CORS) and why is it important in web development?', 'CORS is a security feature that allows or restricts resources on a web page to be requested from another domain.', 1, 7, NOW(), NOW(), 1, 1),
+                (45, 'How do you ensure accessibility (a11y) in web applications?', 'By following WCAG guidelines, using semantic HTML, and providing ARIA roles.', 1, 9, NOW(), NOW(), 1, 1),
+                (46, 'What are the main differences between HTML5 and previous versions?', 'HTML5 introduced new features such as semantic elements, multimedia support, and offline storage.', 1, 4, NOW(), NOW(), 1, 1);
+
+
+-- Backend 관련 질문 (role_id = 2)
+INSERT INTO interview_question (id, question, ideal_answer, role_id, interview_category_id, created_at, updated_at, created_by, updated_by) VALUES
+                (47, 'What are the main differences between REST and GraphQL APIs?', 'REST APIs are resource-based and have fixed endpoints, while GraphQL allows clients to specify exactly what data they need.', 2, 7, NOW(), NOW(), 1, 1),
+                (48, 'Explain how database indexing improves query performance.', 'Indexes allow the database to find rows more quickly by reducing the number of rows it needs to scan.', 2, 7, NOW(), NOW(), 1, 1),
+                (49, 'How does a load balancer work in a backend system?', 'A load balancer distributes incoming network traffic across multiple servers to ensure no single server becomes overwhelmed.', 2, 7, NOW(), NOW(), 1, 1),
+                (50, 'What is the difference between monolithic and microservices architecture?', 'Monolithic architecture is a single unified codebase, while microservices architecture breaks an application into smaller, loosely coupled services.', 2, 7, NOW(), NOW(), 1, 1),
+                (51, 'How do you manage authentication and authorization in a REST API?', 'Authentication verifies identity, often with JWT tokens, while authorization ensures the user has the right permissions.', 2, 7, NOW(), NOW(), 1, 1),
+                (52, 'Explain how caching improves the performance of a web application.', 'Caching stores frequently accessed data in memory, reducing the need to access slower storage repeatedly.', 2, 7, NOW(), NOW(), 1, 1),
+                (53, 'What are the advantages of using NoSQL databases over relational databases?', 'NoSQL databases are more flexible, can handle unstructured data, and scale horizontally.', 2, 7, NOW(), NOW(), 1, 1),
+                (54, 'What is the purpose of middleware in backend development?', 'Middleware processes requests before they reach the main application logic, handling tasks such as logging or authentication.', 2, 7, NOW(), NOW(), 1, 1),
+                (55, 'How do you handle concurrency and parallelism in backend systems?', 'Concurrency allows multiple tasks to make progress independently, while parallelism runs multiple tasks simultaneously.', 2, 7, NOW(), NOW(), 1, 1),
+                (56, 'What is the CAP theorem in distributed systems?', 'CAP theorem states that a distributed system can achieve only two out of three guarantees: Consistency, Availability, and Partition Tolerance.', 2, 7, NOW(), NOW(), 1, 1);
+
+-- App Development 관련 질문 (role_id = 3)
+INSERT INTO interview_question (id, question, ideal_answer, role_id, interview_category_id, created_at, updated_at, created_by, updated_by) VALUES
+                (57, 'What are the differences between native and cross-platform mobile development?', 'Native development is platform-specific, while cross-platform allows you to use one codebase for multiple platforms.', 3, 8, NOW(), NOW(), 1, 1),
+                (58, 'Explain how the Model-View-ViewModel (MVVM) architecture works.', 'MVVM separates the development of the graphical user interface from the business logic or back-end logic.', 3, 8, NOW(), NOW(), 1, 1),
+                (59, 'How do you handle persistent data in mobile applications?', 'Persistent data can be stored using local databases like SQLite or preferences.', 3, 8, NOW(), NOW(), 1, 1),
+                (60, 'What is the importance of memory management in mobile app development?', 'Efficient memory management is essential to prevent app crashes and ensure smooth performance.', 3, 8, NOW(), NOW(), 1, 1),
+                (61, 'How do you implement push notifications in iOS and Android applications?', 'Push notifications can be implemented using Firebase Cloud Messaging (FCM) for Android and Apple Push Notification Service (APNS) for iOS.', 3, 8, NOW(), NOW(), 1, 1),
+                (62, 'Explain the process of handling app lifecycle events in mobile development.', 'Lifecycle events allow the app to respond to state changes like launching, pausing, or resuming.', 3, 8, NOW(), NOW(), 1, 1),
+                (63, 'What are the best practices for improving app performance?', 'Performance can be improved by optimizing layout hierarchies, reducing overdraw, and managing memory effectively.', 3, 8, NOW(), NOW(), 1, 1),
+                (64, 'How do you ensure your app is secure against common threats like data leaks or unauthorized access?', 'Security can be enhanced by using encryption, secure storage, and ensuring proper authentication and authorization.', 3, 8, NOW(), NOW(), 1, 1),
+                (65, 'What are the pros and cons of using Flutter for mobile app development?', 'Flutter offers a single codebase for both iOS and Android, but it may result in larger app sizes.', 3, 8, NOW(), NOW(), 1, 1),
+                (66, 'How do you implement offline functionality in a mobile app?', 'Offline functionality can be implemented using local databases and background synchronization when the network is available.', 3, 8, NOW(), NOW(), 1, 1);
+
+
+-- UI/UX Design 관련 질문 (role_id = 4)
+INSERT INTO interview_question (id, question, ideal_answer, role_id, interview_category_id, created_at, updated_at, created_by, updated_by) VALUES
+                (67, 'What is the difference between UX design and UI design?', 'UX design focuses on the overall experience of the user, while UI design deals with the look and feel of the product interface.', 4, 9, NOW(), NOW(), 1, 1),
+                (68, 'How do you conduct user research for a new product?', 'User research is conducted through methods such as interviews, surveys, and usability testing.', 4, 9, NOW(), NOW(), 1, 1),
+                (69, 'Explain the importance of wireframing in the design process.', 'Wireframing allows designers to create a basic structure of a website or app before adding visual design elements.', 4, 9, NOW(), NOW(), 1, 1),
+                (70, 'What are the key principles of visual hierarchy in UI design?', 'Visual hierarchy is achieved through size, color, contrast, alignment, and spacing to guide the user''s attention.', 4, 9, NOW(), NOW(), 1, 1),
+                (71, 'How do you ensure that your designs are accessible to users with disabilities?', 'By using color contrast, keyboard navigation, and screen reader support, designs can be made accessible.', 4, 9, NOW(), NOW(), 1, 1),
+                (72, 'How do you approach designing for different screen sizes and devices?', 'Responsive design ensures that the interface adapts to various screen sizes by using fluid grids and flexible images.', 4, 9, NOW(), NOW(), 1, 1),
+                (73, 'What is the significance of usability testing in the design process?', 'Usability testing helps identify potential issues in the design and ensures that the product meets user needs.', 4, 9, NOW(), NOW(), 1, 1),
+                (74, 'How do you balance aesthetics and functionality in your designs?', 'By focusing on user goals and ensuring that design elements are both visually appealing and functional.', 4, 9, NOW(), NOW(), 1, 1),
+                (75, 'What is the importance of creating personas in the UX design process?', 'Personas represent user types, helping guide design decisions based on real-world behavior and needs.', 4, 9, NOW(), NOW(), 1, 1),
+                (76, 'How do you integrate feedback from users into your design iterations?', 'By regularly gathering and analyzing user feedback, then incorporating it into design improvements.', 4, 9, NOW(), NOW(), 1, 1);
+
+-- Graphic Design 관련 질문 (role_id = 5)
+INSERT INTO interview_question (id, question, ideal_answer, role_id, interview_category_id, created_at, updated_at, created_by, updated_by) VALUES
+                (77, 'What is the difference between vector and raster graphics?', 'Vector graphics are made of paths, while raster graphics are made of pixels.', 5, 10, NOW(), NOW(), 1, 1),
+                (78, 'How do you approach color theory in your designs?', 'Color theory helps guide the choices of colors that work well together and convey the desired mood or message.', 5, 10, NOW(), NOW(), 1, 1),
+                (79, 'What are the key elements of a well-balanced layout in graphic design?', 'A well-balanced layout includes visual hierarchy, alignment, and consistent spacing.', 5, 10, NOW(), NOW(), 1, 1),
+                (80, 'How do you use typography to enhance the readability of a design?', 'Choosing appropriate fonts, sizes, and line heights can greatly improve readability.', 5, 10, NOW(), NOW(), 1, 1),
+                (81, 'What is the role of branding in graphic design?', 'Branding creates a cohesive image and identity for a business through consistent use of logos, colors, and design styles.', 5, 10, NOW(), NOW(), 1, 1),
+                (82, 'Explain the process of designing a logo from concept to final product.', 'Logo design involves brainstorming, sketching, refinement, and finalizing the design in vector format.', 5, 10, NOW(), NOW(), 1, 1),
+                (83, 'How do you ensure consistency across different design assets?', 'By using style guides, templates, and consistent use of typography, color, and spacing.', 5, 10, NOW(), NOW(), 1, 1),
+                (84, 'How do you handle revisions and feedback from clients in the design process?', 'Through clear communication and understanding the client''s goals while maintaining the integrity of the design.', 5, 10, NOW(), NOW(), 1, 1),
+                (85, 'What is the importance of using grids in your design workflow?', 'Grids help to create structure and alignment, making the design more cohesive and easier to navigate.', 5, 10, NOW(), NOW(), 1, 1),
+                (86, 'How do you optimize images for both print and web formats?', 'For print, images should be high resolution (300dpi), while for the web, images should be compressed and optimized for faster loading.', 5, 10, NOW(), NOW(), 1, 1);
+
+-- Project Management 관련 질문 (role_id = 6)
+INSERT INTO interview_question (id, question, ideal_answer, role_id, interview_category_id, created_at, updated_at, created_by, updated_by) VALUES
+                (87, 'How do you prioritize tasks in a project with tight deadlines?', 'Prioritization is done based on urgency, impact, and resource availability, often using methods like MoSCoW or Eisenhower Matrix.', 6, 11, NOW(), NOW(), 1, 1),
+                (88, 'Explain the differences between Agile and Waterfall methodologies.', 'Agile is iterative and flexible, while Waterfall is linear and sequential.', 6, 11, NOW(), NOW(), 1, 1),
+                (89, 'How do you handle scope creep in a project?', 'Scope creep can be managed through clear documentation, change control processes, and constant communication with stakeholders.', 6, 11, NOW(), NOW(), 1, 1),
+                (90, 'What is the significance of risk management in project planning?', 'Risk management helps identify potential issues early, allowing for proactive mitigation strategies.', 6, 11, NOW(), NOW(), 1, 1),
+                (91, 'How do you ensure effective communication among team members?', 'Effective communication is achieved through regular meetings, clear documentation, and using collaboration tools.', 6, 11, NOW(), NOW(), 1, 1),
+                (92, 'What tools do you use for tracking project progress and milestones?', 'Tools like Jira, Trello, and Microsoft Project help in tracking progress and ensuring milestones are met.', 6, 11, NOW(), NOW(), 1, 1),
+                (93, 'How do you manage resources when they are limited or over-allocated?', 'By reallocating tasks, prioritizing essential work, and potentially bringing in additional resources if necessary.', 6, 11, NOW(), NOW(), 1, 1),
+                (94, 'How do you handle conflicts within the project team?', 'Conflicts can be resolved through mediation, open communication, and focusing on common project goals.', 6, 11, NOW(), NOW(), 1, 1),
+                (95, 'What is the importance of stakeholder management in project success?', 'Stakeholder management ensures that expectations are met, and their input is considered throughout the project.', 6, 11, NOW(), NOW(), 1, 1),
+                (96, 'How do you ensure that the project stays within budget?', 'Budget adherence is achieved through careful tracking of expenses, resource management, and adjusting the scope as necessary.', 6, 11, NOW(), NOW(), 1, 1);
+
+-- Video Editing 관련 질문 (role_id = 7)
+INSERT INTO interview_question (id, question, ideal_answer, role_id, interview_category_id, created_at, updated_at, created_by, updated_by) VALUES
+                (97, 'What are the key differences between linear and non-linear editing?', 'Linear editing is sequential, while non-linear allows for edits at any point in the project timeline.', 7, 12, NOW(), NOW(), 1, 1),
+                (98, 'How do you ensure color consistency across different clips in a video?', 'Color grading and correction tools help ensure consistent color across all clips.', 7, 12, NOW(), NOW(), 1, 1),
+                (99, 'What is the importance of pacing in video editing?', 'Pacing affects the flow of the video and can enhance the emotional impact of the story.', 7, 12, NOW(), NOW(), 1, 1),
+                (100, 'Explain the concept of the J-cut and L-cut in video editing.', 'J-cuts allow audio to start before the video, while L-cuts extend the audio beyond the end of the video.', 7, 12, NOW(), NOW(), 1, 1),
+                (101, 'How do you organize your media assets for a large project?', 'Media assets are organized using folders, bins, and metadata to ensure easy access and efficient workflow.', 7, 12, NOW(), NOW(), 1, 1),
+                (102, 'What are the best practices for adding effects and transitions to a video?', 'Effects and transitions should be subtle and serve the story, rather than distract from it.', 7, 12, NOW(), NOW(), 1, 1),
+                (103, 'How do you handle synchronization of audio and video tracks?', 'Synchronization is achieved by aligning audio waveforms or using timecode and syncing tools.', 7, 12, NOW(), NOW(), 1, 1),
+                (104, 'What is the significance of the rule of thirds in video composition?', 'The rule of thirds creates visually appealing compositions by dividing the frame into nine equal parts.', 7, 12, NOW(), NOW(), 1, 1),
+                (105, 'How do you optimize videos for different platforms (e.g., YouTube, Instagram)?', 'Optimization involves using the correct aspect ratio, resolution, and compression settings for each platform.', 7, 12, NOW(), NOW(), 1, 1),
+                (106, 'What software do you prefer for video editing, and why?', 'Preferred software depends on the project needs; Adobe Premiere Pro and Final Cut Pro are popular choices for their advanced features and workflow efficiency.', 7, 12, NOW(), NOW(), 1, 1);
