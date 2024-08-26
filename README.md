@@ -60,3 +60,21 @@ Frontend : Vue.js 3v, Javascript
 Backend : Java 17 * SpringBoot 3.3.0
 
 Infra : AWS DynamoDB, AWS S3, AWS EC2
+
+## AS-IS 배포 방법
+- assistant-frontend
+    - npm run build
+    - backend resources 하위에 static 디렉토리 생성 및 덮어쓰기
+- assistant-backend
+    - gradle build
+    - AWS 서버로 jar 파일 이동
+        - scp -i ~/.ssh/mock-interview-key-pair.pem assistant-0.0.1-SNAPSHOT.jar ec2-user@{aws-ip}:/home/ec2-user
+- AWS
+    - ps -ef | grep java 
+        - 실행중인 어플리케이션 kill
+    - nohup java -jar assistant-0.0.1-SNAPSHOT.jar &
+    - 로그보는 방법
+        - /opt/assistant/log/catalina
+            - tail -f -n {row numbers} {file_name} -> 실시간 모니터링
+            - less {file_name} -> 트러블슈팅
+                - grep으로 문자열 검색
