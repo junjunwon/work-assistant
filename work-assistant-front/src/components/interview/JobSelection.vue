@@ -6,11 +6,6 @@
       <div v-for="job in jobs" :key="job.id">
         <button class="primary" @click="selectJobMethod(job)">{{ job.title }}</button>
       </div>
-      <div>
-        <button id="btn-start-recording" :disabled="disabled" @click="startRec" class="primary">녹화시작</button>
-        <button id="btn-stop-recording" :disabled="!disabled" @click="stopRec" class="primary">녹화중지</button>
-        <video controls autoplay playsinline ref="video" height="500" width="700"></video>
-      </div>
     </div>
   </div>
 </template>
@@ -18,14 +13,11 @@
 <script>
 import axios from '../../plugins/axios';
 import { mapActions } from 'vuex';
-import RecordRTC from "recordrtc";
 
 export default {
   data() {
     return {
-      jobs: [],
-      recorder: null,
-      disabled: false
+      jobs: []
     };
   },
   async created() {
@@ -41,50 +33,7 @@ export default {
     selectJobMethod(job) {
       this.selectJob(job);
       this.$router.push({ name: 'RoleSelection' });
-    },
-    startRec() {
-      this.disabled = true;
-      this.captureCamera(camera => {
-        const video = this.$refs["video"];
-        video.muted = true;
-        video.volume = 0;
-        video.srcObject = camera;
-        this.recorder = RecordRTC(camera, {
-          type: "video"
-        });
-        this.recorder.startRecording();
-        this.recorder.camera = camera;
-
-        this.disabled = true;
-      });
-    },
-    stopRec() {
-      this.disabled = false;
-      this.recorder.stopRecording(this.stopRecordingCallback);
-    },
-    captureCamera(callback) {
-      navigator.mediaDevices
-          .getUserMedia({ audio: true, video: true })
-          .then(function(camera) {
-            callback(camera);
-          })
-          .catch(function(error) {
-            alert("Unable to capture your camera. Please check console logs.");
-            console.error(error);
-          });
-    },
-    stopRecordingCallback() {
-      const video = this.$refs["video"];
-      video.srcObject = null;
-      video.muted = false;
-      video.volume = 1;
-      video.src = URL.createObjectURL(this.recorder.getBlob());
-
-      this.recorder.camera.stop();
-      this.recorder.destroy();
-      this.recorder = null;
-    },
-
+    }
   }
 };
 </script>
