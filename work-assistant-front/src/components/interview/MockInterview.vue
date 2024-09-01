@@ -13,6 +13,7 @@
         <button id="btn-stop-recording" :disabled="!disabled" @click="stopRec" class="primary">녹화중지</button>
         <video controls autoplay playsinline ref="video" height="300" width="400"></video>
       </div>
+      <p v-if="finalTranscripts.length">{{ finalTranscripts.join(' ') }}</p>
     </div>
   </div>
 </template>
@@ -28,7 +29,10 @@ export default {
       answer: '',
       disabled: false,
       recorder: null,
-      synth: window.speechSynthesis
+      synth: window.speechSynthesis,
+      finalTranscripts: [], // 최종 결과
+      isRecording: false, // 음성 인식 상태 확인
+      recognition: null // SpeechRecognition 객체 저장
     };
   },
   computed: {
@@ -66,7 +70,48 @@ export default {
       const utterance = new SpeechSynthesisUtterance(text);
       this.synth.speak(utterance);
     },
+    startToWriteDown() {
+      // Web Speech API의 SpeechRecognition을 사용
+      this.recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
 
+      this.recognition.lang = 'ko-KR';
+      this.recognition.interimResults = true; // 중간 결과 표시
+
+      this.recognition.onresult = (event) => {
+        let final = '';
+
+        for (const result of event.results) {
+          if (result.isFinal) {
+            final += result[0].transcript;
+          }
+        }
+        // 실시간으로 최종 결과 업데이트
+        if (final) {
+          this.finalTranscripts.push(final);
+        }
+      };
+
+      this.recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+      };
+
+      this.recognition.onend = () => {
+        if (this.isRecording) {
+          // 음성 인식이 종료되면 자동으로 다시 시작
+          this.recognition.start();
+        }
+      };
+
+      this.isRecording = true;
+      this.finalTranscripts = []; // 새로운 세션 시작 시 최종 결과 배열 초기화
+      this.recognition.start(); // 음성 인식 시작
+    },
+    stopWritingDown() {
+      if (this.recognition) {
+        this.recognition.stop(); // 음성 인식 중지
+      }
+      this.isRecording = false;
+    },
     startRec() {
       this.disabled = true;
       this.captureCamera(camera => {
@@ -82,10 +127,13 @@ export default {
 
         this.disabled = true;
       });
+      this.startToWriteDown();
+
     },
     stopRec() {
       this.disabled = false;
       this.recorder.stopRecording(this.stopRecordingCallback);
+      this.stopWritingDown();
     },
     captureCamera(callback) {
       navigator.mediaDevices
