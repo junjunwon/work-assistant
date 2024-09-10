@@ -4,9 +4,7 @@ import com.work.assistant.interview.entity.InterviewQuestion;
 import lombok.Getter;
 
 @Getter
-public class InterviewQuestionResponse {
-    private Long id;
-    private String question;
+public record InterviewQuestionResponse (Long id, String question) {
 
     public InterviewQuestionResponse(Long id, String question) {
         this.id = id;
