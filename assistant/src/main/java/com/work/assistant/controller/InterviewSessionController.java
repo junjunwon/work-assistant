@@ -1,6 +1,7 @@
 package com.work.assistant.controller;
 
 import com.work.assistant.interview.entity.InterviewAnswer;
+import com.work.assistant.interview.model.InterviewAnswerRequest;
 import com.work.assistant.interview.model.InterviewSessionRequest;
 import com.work.assistant.interview.service.InterviewSessionService;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +23,9 @@ public class InterviewSessionController {
     }
 
     //코드개선 필요 -> 세션을 저장하면 답도 같이 저장되어야하는거 아닌가? (답은 또 질문 id를 가지고 있어서)
-    @PostMapping("/{sessionId}/answers")
-    public ResponseEntity saveAnswers(@PathVariable int sessionId, @RequestBody List<InterviewAnswer> answers) {
-        interviewSessionService.saveAnswers(sessionId, answers);
+    @PutMapping("/{sessionId}/answers")
+    public ResponseEntity saveSession(@PathVariable long sessionId, @RequestBody List<InterviewAnswerRequest> answers) {
+        interviewSessionService.saveSession(sessionId, answers);
         return ResponseEntity.ok("세션Id " + sessionId + "에 해당하는 질문 모음 등록 성공");
     }
 

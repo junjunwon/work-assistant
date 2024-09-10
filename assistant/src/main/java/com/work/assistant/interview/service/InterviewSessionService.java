@@ -2,6 +2,7 @@ package com.work.assistant.interview.service;
 
 import com.work.assistant.interview.entity.InterviewAnswer;
 import com.work.assistant.interview.entity.InterviewSession;
+import com.work.assistant.interview.model.InterviewAnswerRequest;
 import com.work.assistant.interview.model.InterviewSessionRequest;
 import com.work.assistant.job.entity.Job;
 import com.work.assistant.job.entity.Role;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,7 +36,18 @@ public class InterviewSessionService {
     }
 
     @Transactional
-    public void saveAnswers(int sessionId, List<InterviewAnswer> answers) {
+    public void saveSession(long sessionId, List<InterviewAnswerRequest> answerRequests) {
+        InterviewSession interviewSession = interviewSessionDaoService.findById(sessionId);
+        List<InterviewAnswer> interviewAnswers = new ArrayList<>();
+
+        for (InterviewAnswerRequest answerRequest : answerRequests) {
+            InterviewAnswer interviewAnswer =
+                    InterviewAnswer.of(interviewSession, answerRequest.getQuestionId(), answerRequest.getAnswer());
+            interviewAnswers.add(interviewAnswer);
+        }
+        interviewSession.updateInterviewAnswers(interviewAnswers);
+        interviewSessionDaoService.save(interviewSession);
+
     }
 
     @Transactional

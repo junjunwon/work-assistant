@@ -5,6 +5,7 @@ package com.work.assistant.interview.entity;
  */
 
 import com.work.assistant.common.audit.Auditing;
+import com.work.assistant.interview.model.InterviewAnswerRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -23,10 +24,23 @@ public class InterviewAnswer extends Auditing {
     @JoinColumn(name = "interview_session_id", nullable = false)
     private InterviewSession interviewSession;
 
-    @ManyToOne
-    @JoinColumn(name = "interview_question_id", nullable = false)
-    private InterviewQuestion question;
+//    @ManyToOne
+//    @JoinColumn(name = "interview_question_id", nullable = false)
+//    private InterviewQuestion question;
+
+    @Column(nullable = false)
+    private Long questionId;
 
     @Column(nullable = false)
     private String answer;
+
+    public InterviewAnswer(InterviewSession interviewSession, Long questionId, String answer) {
+        this.interviewSession = interviewSession;
+        this.questionId = questionId;
+        this.answer = answer;
+    }
+
+    public static InterviewAnswer of(InterviewSession interviewSession, Long questionId, String answer) {
+        return new InterviewAnswer(interviewSession, questionId, answer);
+    }
 }

@@ -8,6 +8,8 @@ package com.work.assistant.interview.entity;
  * 면접이 시작되고 끝난 시간
  * 면접과 관련된 직군 및 직무
  * 면접 동안의 질문 및 답변
+ *
+ * TODO: 어느 시점에 사라지게 해야하나?
  */
 
 import com.work.assistant.common.audit.Auditing;
@@ -45,5 +47,9 @@ public class InterviewSession extends Auditing {
     public InterviewSession(Job job, Role role) {
         this.job = job;
         this.role = role;
+    }
+
+    public void updateInterviewAnswers(List<InterviewAnswer> interviewAnswers) {
+        this.interviewAnswers = interviewAnswers;
     }
 }
