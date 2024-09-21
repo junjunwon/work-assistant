@@ -1,7 +1,8 @@
 package com.work.assistant.controller;
 
-import com.work.assistant.interview.model.InterviewAnswerRequest;
-import com.work.assistant.interview.model.InterviewSessionRequest;
+import com.work.assistant.interview.request.InterviewAnswerRequest;
+import com.work.assistant.interview.request.InterviewSessionRequest;
+import com.work.assistant.interview.response.InterviewSessionResponse;
 import com.work.assistant.interview.service.InterviewSessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +29,10 @@ public class InterviewSessionController {
         return ResponseEntity.ok("세션Id " + sessionId + "에 해당하는 질문 모음 등록 성공");
     }
 
-    //코드개선 필요
-    @PutMapping("/{sessionId}/end")
-    public ResponseEntity endSession(@PathVariable int sessionId) {
-        return ResponseEntity.ok("성공적으로 세션 종료");
+    @GetMapping
+    public ResponseEntity<InterviewSessionResponse> getSessionResult(@RequestParam long sessionId) {
+        InterviewSessionResponse response = interviewSessionService.getSessionResult(sessionId);
+        return ResponseEntity.ok(response);
+
     }
 }

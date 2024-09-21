@@ -5,11 +5,12 @@ package com.work.assistant.interview.entity;
  */
 
 import com.work.assistant.common.audit.Auditing;
-import com.work.assistant.interview.model.InterviewAnswerRequest;
+import com.work.assistant.interview.request.InterviewAnswerRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 @Getter
 @Entity
@@ -24,23 +25,28 @@ public class InterviewAnswer extends Auditing {
     @JoinColumn(name = "interview_session_id", nullable = false)
     private InterviewSession interviewSession;
 
-//    @ManyToOne
-//    @JoinColumn(name = "interview_question_id", nullable = false)
-//    private InterviewQuestion question;
-
+    @Comment("InterviewQuestion 테이블 key")
     @Column(nullable = false)
     private long questionId;
 
+    @Comment("모의 면접 당시 질문")
+    @Column(nullable = false)
+    private String question;
+
+    @Comment("질문에 대한 지원자 답변")
     @Column(nullable = false)
     private String answer;
 
-    public InterviewAnswer(InterviewSession interviewSession, long questionId, String answer) {
+    public InterviewAnswer(InterviewSession interviewSession, long questionId,
+                           String question, String answer) {
         this.interviewSession = interviewSession;
         this.questionId = questionId;
+        this.question = question;
         this.answer = answer;
     }
 
-    public static InterviewAnswer of(InterviewSession interviewSession, long questionId, String answer) {
-        return new InterviewAnswer(interviewSession, questionId, answer);
+    public static InterviewAnswer of(InterviewSession interviewSession, InterviewAnswerRequest answerRequest) {
+        return new InterviewAnswer(interviewSession, answerRequest.questionId(),
+                answerRequest.question(), answerRequest.answer());
     }
 }

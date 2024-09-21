@@ -1,4 +1,4 @@
-package com.work.assistant.interview.model;
+package com.work.assistant.interview.request;
 
 import com.work.assistant.interview.entity.InterviewQuestion;
 

@@ -2,8 +2,11 @@ package com.work.assistant.interview.service;
 
 import com.work.assistant.interview.entity.InterviewAnswer;
 import com.work.assistant.interview.entity.InterviewSession;
-import com.work.assistant.interview.model.InterviewAnswerRequest;
-import com.work.assistant.interview.model.InterviewSessionRequest;
+import com.work.assistant.interview.request.InterviewAnswerRequest;
+import com.work.assistant.interview.request.InterviewQuestionResponse;
+import com.work.assistant.interview.request.InterviewSessionRequest;
+import com.work.assistant.interview.response.InterviewSessionResponse;
+import com.work.assistant.interview.response.QuestionAsnwerResponse;
 import com.work.assistant.job.entity.Job;
 import com.work.assistant.job.entity.Role;
 import com.work.assistant.job.service.JobDAOService;
@@ -43,11 +46,29 @@ public class InterviewSessionService {
 
         for (InterviewAnswerRequest answerRequest : answerRequests) {
             InterviewAnswer interviewAnswer =
-                    InterviewAnswer.of(interviewSession, answerRequest.questionId(), answerRequest.answer());
+                    InterviewAnswer.of(interviewSession, answerRequest);
             interviewAnswers.add(interviewAnswer);
         }
         interviewSession.updateInterviewAnswers(interviewAnswers);
 
         interviewAnswerDaoService.saveAll(interviewAnswers);
+    }
+
+    @Transactional
+    public InterviewSessionResponse getSessionResult(long sessionId) {
+        InterviewSession interviewSession = interviewSessionDaoService.findById(sessionId);
+
+        List<InterviewAnswer> answers = interviewSession.getInterviewAnswers();
+        List<QuestionAsnwerResponse> responses = answers.stream()
+                .map(QuestionAsnwerResponse::of)
+                .toList();
+
+        String jobTitle = interviewSession.getJobTitle();
+        String roleTitle = interviewSession.getRoleTitle();
+
+        return new InterviewSessionResponse(
+                interviewSession.getId(),
+                jobTitle, roleTitle, responses
+        );
     }
 }

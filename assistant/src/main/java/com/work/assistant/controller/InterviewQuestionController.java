@@ -1,7 +1,7 @@
 package com.work.assistant.controller;
 
-import com.work.assistant.interview.model.InterviewQuestionRequest;
-import com.work.assistant.interview.model.InterviewQuestionResponse;
+import com.work.assistant.interview.request.InterviewQuestionRequest;
+import com.work.assistant.interview.request.InterviewQuestionResponse;
 import com.work.assistant.interview.service.InterviewQuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

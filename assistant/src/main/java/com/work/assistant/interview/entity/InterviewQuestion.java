@@ -6,7 +6,7 @@ package com.work.assistant.interview.entity;
 
 import com.work.assistant.common.audit.Auditing;
 import com.work.assistant.job.entity.Role;
-import com.work.assistant.interview.model.InterviewQuestionRequest;
+import com.work.assistant.interview.request.InterviewQuestionRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

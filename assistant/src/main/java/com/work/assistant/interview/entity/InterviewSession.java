@@ -13,8 +13,6 @@ package com.work.assistant.interview.entity;
  */
 
 import com.work.assistant.common.audit.Auditing;
-import com.work.assistant.interview.model.InterviewQuestionRequest;
-import com.work.assistant.interview.model.InterviewSessionRequest;
 import com.work.assistant.job.entity.Job;
 import com.work.assistant.job.entity.Role;
 import jakarta.persistence.*;
@@ -51,5 +49,13 @@ public class InterviewSession extends Auditing {
 
     public void updateInterviewAnswers(List<InterviewAnswer> interviewAnswers) {
         this.interviewAnswers = interviewAnswers;
+    }
+
+    public String getJobTitle() {
+        return this.job.getTitle();
+    }
+
+    public String getRoleTitle() {
+        return this.role.getTitle();
     }
 }

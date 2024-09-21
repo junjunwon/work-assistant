@@ -5,6 +5,28 @@
       <p>결과를 확인해볼까요?</p>
       <button class="primary large" @click="showResult">확인하러가기</button>
       <div v-if="showingResult">
+        <!-- 결과 테이블 -->
+        <div class="response-table">
+          <div class="session-info">
+            <h4>Session ID: {{ responseData.sessionId }}</h4>
+            <h4>Job Title: {{ responseData.jobTitle }}</h4>
+            <h4>Role Title: {{ responseData.roleTitle }}</h4>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Question</th>
+                <th>Answer</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in responseData.questionAnswerResponses" :key="index">
+                <td>{{ item.question }}</td>
+                <td>{{ item.answer || '답변 없음' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <!-- <button class="primary large" @click="downloadFeedback">피드백 다운로드 (유료 서비스)</button> -->
         <button class="primary large" @click="restartInterview">처음으로 가기</button>
       </div>
@@ -18,14 +40,27 @@ import { mapMutations, mapActions } from 'vuex';
 export default {
   data() {
     return {
-      showingResult: false
+      showingResult: false,
+      responseData: {
+        sessionId: null,
+        jobTitle: '',
+        roleTitle: '',
+        questionAnswerResponses: []
+      }
     };
   },
   methods: {
     ...mapMutations(['resetState']),
-    ...mapActions(['saveInterviewResults']),
+    ...mapActions(['saveInterviewResults', 'getSessionResult']),
     async showResult() {
+      const sessionResponse = await this.getSessionResult();
+      this.responseData = sessionResponse.data;
+      console.log("this.responseData");
+      console.log(this.responseData);
+      console.log(this.responseData.jobTitle);
+      console.log(this.responseData.questionAnswerResponses);
       this.showingResult = true;
+
     },
     async downloadFeedback() {
       const result = await this.saveInterviewResults();

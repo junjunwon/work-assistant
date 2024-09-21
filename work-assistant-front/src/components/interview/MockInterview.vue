@@ -6,9 +6,9 @@
       <p v-if="currentQuestion">{{ currentQuestion.question }} <button class="secondary" @click="generateSpeech" >음성</button></p>
       <p v-else>로딩 중...</p>
 
-      <input v-if="currentQuestion" type="text" v-model="answer" placeholder="답변을 입력하세요" />
-      <button class="primary" v-if="currentQuestion" @click="nextQuestion(currentQuestion.id)">다음 질문</button>
-      <button class="primary" v-if="currentQuestion" @click="endInterview(currentQuestion.id)">면접 종료하기</button>
+      <input v-if="currentQuestion" type="text" v-model="answer" @keyup.enter="nextQuestion(currentQuestion)" placeholder="답변을 입력하세요" />
+      <button class="primary" v-if="currentQuestion" @click="nextQuestion(currentQuestion)">다음 질문</button>
+      <button class="primary" v-if="currentQuestion" @click="endInterview(currentQuestion)">답변 저장 후 면접 종료하기</button>
       <div>
         <button id="btn-start-recording" :disabled="disabled" @click="startRec" class="primary">녹화시작</button>
         <button id="btn-stop-recording" :disabled="!disabled" @click="stopRec" class="primary">녹화중지</button>
@@ -64,12 +64,12 @@ export default {
   methods: {
     ...mapMutations(['addInterviewQuestion']),
     ...mapActions(['updateInterviewIndex', 'loadInterviewQuestions', 'saveSession']),
-    updateAnswer(questionId) {
-      console.log(questionId);
-      this.addInterviewQuestion({"questionId": questionId, "answer": this.answer});
+    updateAnswer(question) {
+      console.log(question);
+      this.addInterviewQuestion({"questionId": question.id, "question": question.question, "answer": this.answer});
     },
-    nextQuestion(questionId) {
-      this.updateAnswer(questionId);
+    nextQuestion(question) {
+      this.updateAnswer(question);
       if (this.currentQuestionIndex < this.interviewQuestions.length - 1) {
         this.updateInterviewIndex();
         this.answer = '';
@@ -77,9 +77,9 @@ export default {
         this.$router.push({ name: 'InterviewResult' });
       }
     },
-    async endInterview(questionId) {
+    async endInterview(question) {
       this.isLoading = true; // 요청 시작 시 로딩바 표시
-      await this.updateAnswer(questionId);
+      await this.updateAnswer(question);
       await this.saveSession();
       this.isLoading = false; // 요청 완료 후 로딩바 숨기기
       this.$router.push({ name: 'InterviewResult' });

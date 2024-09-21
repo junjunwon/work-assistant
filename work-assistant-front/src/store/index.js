@@ -74,12 +74,21 @@ const store = createStore({
     },
     saveSession({ state }) {
       const sessionId = state.sessionId;
-      console.log(JSON.stringify(state.answers));
       try {
         axios.put(`/public/interview/session/${sessionId}/answers`, 
           JSON.parse(JSON.stringify(state.answers)))
       } catch (error) {
         console.error('Error saveing session:', error);
+      }
+    },
+    getSessionResult({ state }) {
+      const params = {
+        sessionId : state.sessionId
+      }
+      try {
+        return axios.get('/public/interview/session', {params})
+      } catch (error) {
+        console.error('Error get session:', error);
       }
     }
   },

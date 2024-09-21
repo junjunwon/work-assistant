@@ -5,6 +5,7 @@ import com.work.assistant.interview.entity.InterviewSession;
 import com.work.assistant.repository.jpa.InterviewSessionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.work.assistant.common.exception.ExceptionStatus.WRONG_SESSION;
 
@@ -14,11 +15,12 @@ public class InterviewSessionDaoService {
 
     private final InterviewSessionRepository interviewSessionRepository;
 
-
+    @Transactional
     public void save(InterviewSession interviewSession) {
         interviewSessionRepository.save(interviewSession);
     }
 
+    @Transactional(readOnly = true)
     public InterviewSession findById(Long id) {
         return interviewSessionRepository.findById(id).orElseThrow(() -> new CustomException(WRONG_SESSION));
     }
