@@ -1,6 +1,5 @@
 package com.work.assistant.controller;
 
-import com.work.assistant.interview.entity.InterviewAnswer;
 import com.work.assistant.interview.model.InterviewAnswerRequest;
 import com.work.assistant.interview.model.InterviewSessionRequest;
 import com.work.assistant.interview.service.InterviewSessionService;
@@ -32,7 +31,6 @@ public class InterviewSessionController {
     //코드개선 필요
     @PutMapping("/{sessionId}/end")
     public ResponseEntity endSession(@PathVariable int sessionId) {
-        interviewSessionService.endSession(sessionId);
         return ResponseEntity.ok("성공적으로 세션 종료");
     }
 }

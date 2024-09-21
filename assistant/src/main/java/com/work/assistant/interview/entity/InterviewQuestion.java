@@ -41,8 +41,8 @@ public class InterviewQuestion extends Auditing {
     }
 
     public static InterviewQuestion create(InterviewQuestionRequest interviewQuestionRequest, InterviewCategory interviewCategory) {
-        return new InterviewQuestion(interviewQuestionRequest.getQuestion(),
-                interviewQuestionRequest.getIdealAnswer(),
+        return new InterviewQuestion(interviewQuestionRequest.question(),
+                interviewQuestionRequest.idealAnswer(),
                 interviewCategory
         );
     }

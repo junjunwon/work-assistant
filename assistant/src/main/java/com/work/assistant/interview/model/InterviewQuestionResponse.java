@@ -1,9 +1,7 @@
 package com.work.assistant.interview.model;
 
 import com.work.assistant.interview.entity.InterviewQuestion;
-import lombok.Getter;
 
-@Getter
 public record InterviewQuestionResponse (Long id, String question) {
 
     public InterviewQuestionResponse(Long id, String question) {
