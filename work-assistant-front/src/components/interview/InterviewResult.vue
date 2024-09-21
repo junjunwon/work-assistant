@@ -8,15 +8,14 @@
         <!-- 결과 테이블 -->
         <div class="response-table">
           <div class="session-info">
-            <h4>Session ID: {{ responseData.sessionId }}</h4>
-            <h4>Job Title: {{ responseData.jobTitle }}</h4>
-            <h4>Role Title: {{ responseData.roleTitle }}</h4>
+            <h4>직종 : {{ responseData.jobTitle }}</h4>
+            <h4>직무 : {{ responseData.roleTitle }}</h4>
           </div>
           <table>
             <thead>
               <tr>
-                <th>Question</th>
-                <th>Answer</th>
+                <th>질문</th>
+                <th>작성한 답변</th>
               </tr>
             </thead>
             <tbody>
