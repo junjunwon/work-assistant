@@ -1,6 +1,4 @@
 package com.work.assistant.interview.model;
 
-import lombok.Getter;
-
-@Getter
-public record InterviewAnswerRequest (Long questionId, String answer) {}
+public record InterviewAnswerRequest (long questionId, String answer) {
+}

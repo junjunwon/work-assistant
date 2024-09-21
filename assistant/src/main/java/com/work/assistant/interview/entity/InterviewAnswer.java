@@ -29,18 +29,18 @@ public class InterviewAnswer extends Auditing {
 //    private InterviewQuestion question;
 
     @Column(nullable = false)
-    private Long questionId;
+    private long questionId;
 
     @Column(nullable = false)
     private String answer;
 
-    public InterviewAnswer(InterviewSession interviewSession, Long questionId, String answer) {
+    public InterviewAnswer(InterviewSession interviewSession, long questionId, String answer) {
         this.interviewSession = interviewSession;
         this.questionId = questionId;
         this.answer = answer;
     }
 
-    public static InterviewAnswer of(InterviewSession interviewSession, Long questionId, String answer) {
+    public static InterviewAnswer of(InterviewSession interviewSession, long questionId, String answer) {
         return new InterviewAnswer(interviewSession, questionId, answer);
     }
 }

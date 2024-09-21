@@ -27,8 +27,9 @@ const store = createStore({
     resetQuestionIndex(state) {
       state.currentQuestionIndex = 0;
     },
-    setAnswer(state, { index, answer }) {
-      state.answers[index] = answer;
+    // 개별 질문을 추가하는 mutation
+    addInterviewQuestion(state, answer) {
+      state.answers.push(answer); // 질의응답을 배열에 추가
     },
     resetState(state) {
       state.selectedJob = null;
@@ -51,7 +52,7 @@ const store = createStore({
     loadInterviewQuestions({ commit }, questions) {
       commit('setInterviewQuestions', questions);
     },
-    nextQuestion({ commit }) {
+    updateInterviewIndex({ commit }) {
       commit('incrementQuestionIndex');
     },
     resetInterview({ commit }) {
@@ -59,22 +60,6 @@ const store = createStore({
     },
     resetState({ commit }) {
       commit('resetState');
-    },
-    setAnswer({ commit, state }, answer) {
-      commit('setAnswer', { index: state.currentQuestionIndex, answer });
-    },
-    async saveInterviewResults({ state }) {
-      try {
-        const response = await axios.post('/public/interview/answers', {
-          job: state.selectedJob,
-          role: state.selectedRole,
-          questions: state.interviewQuestions,
-          answers: state.answers
-        });
-        return response.data;
-      } catch (error) {
-        console.error('Error saving interview results:', error);
-      }
     },
     async createSession({ commit, state }) {
       try {
@@ -85,6 +70,16 @@ const store = createStore({
         commit('setSessionId', response.data);
       } catch (error) {
         console.error('Error creating session:', error);
+      }
+    },
+    saveSession({ state }) {
+      const sessionId = state.sessionId;
+      console.log(JSON.stringify(state.answers));
+      try {
+        axios.put(`/public/interview/session/${sessionId}/answers`, 
+          JSON.parse(JSON.stringify(state.answers)))
+      } catch (error) {
+        console.error('Error saveing session:', error);
       }
     }
   },

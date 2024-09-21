@@ -20,13 +20,14 @@ import java.util.List;
 public class InterviewSessionService {
 
     private final InterviewSessionDaoService interviewSessionDaoService;
+    private final InterviewAnswerDaoService interviewAnswerDaoService;
     private final JobDAOService jobDAOService;
     private final RoleDAOService roleDAOService;
 
     @Transactional
     public Long save(InterviewSessionRequest sessionRequest) {
-        Job job = jobDAOService.findByJobId(sessionRequest.getJobId());
-        Role role = roleDAOService.findByRoleId(sessionRequest.getRoleId());
+        Job job = jobDAOService.findByJobId(sessionRequest.jobId());
+        Role role = roleDAOService.findByRoleId(sessionRequest.roleId());
 
         InterviewSession interviewSession = new InterviewSession(job, role);
 
@@ -42,15 +43,11 @@ public class InterviewSessionService {
 
         for (InterviewAnswerRequest answerRequest : answerRequests) {
             InterviewAnswer interviewAnswer =
-                    InterviewAnswer.of(interviewSession, answerRequest.getQuestionId(), answerRequest.getAnswer());
+                    InterviewAnswer.of(interviewSession, answerRequest.questionId(), answerRequest.answer());
             interviewAnswers.add(interviewAnswer);
         }
         interviewSession.updateInterviewAnswers(interviewAnswers);
-        interviewSessionDaoService.save(interviewSession);
 
-    }
-
-    @Transactional
-    public void endSession(int sessionId) {
+        interviewAnswerDaoService.saveAll(interviewAnswers);
     }
 }

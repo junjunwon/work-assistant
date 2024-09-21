@@ -1,13 +1,14 @@
 <template>
   <div class="container">
+    <LoadingBar :isLoading="isLoading" />
     <div class="card">
       <h2>면접 진행 중...</h2>
       <p v-if="currentQuestion">{{ currentQuestion.question }} <button class="secondary" @click="generateSpeech" >음성</button></p>
       <p v-else>로딩 중...</p>
 
-      <input v-if="currentQuestion" type="text" v-model="answer" @input="updateAnswer" placeholder="답변을 입력하세요" />
-      <button class="primary" v-if="currentQuestion" @click="submitAnswer">다음 질문</button>
-      <button class="primary" v-if="currentQuestion" @click="stopAndMoveToResult">면접 결과보기</button>
+      <input v-if="currentQuestion" type="text" v-model="answer" placeholder="답변을 입력하세요" />
+      <button class="primary" v-if="currentQuestion" @click="nextQuestion(currentQuestion.id)">다음 질문</button>
+      <button class="primary" v-if="currentQuestion" @click="endInterview(currentQuestion.id)">면접 종료하기</button>
       <div>
         <button id="btn-start-recording" :disabled="disabled" @click="startRec" class="primary">녹화시작</button>
         <button id="btn-stop-recording" :disabled="!disabled" @click="stopRec" class="primary">녹화중지</button>
@@ -20,12 +21,17 @@
 
 <script>
 import axios from '../../plugins/axios';
-import { mapState, mapActions, mapGetters } from 'vuex';
+import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
 import RecordRTC from "recordrtc";
+import LoadingBar from '../util/LoadingBar.vue';
 
 export default {
+  components: {
+    LoadingBar
+  },
   data() {
     return {
+      isLoading: false,
       answer: '',
       disabled: false,
       recorder: null,
@@ -44,23 +50,40 @@ export default {
       this.answer = this.answers[newIndex] || '';
     }
   },
+  async created() {
+    try {
+      const response = await axios.get(`/public/interview/question/${this.$store.state.selectedRole.id}`);
+      this.loadInterviewQuestions(response.data);
+    } catch (error) {
+      console.error('Error fetching quizzes:', error);
+    }
+  },
+  mounted() {
+    this.answer = this.answers[this.currentQuestionIndex] || '';
+  },
   methods: {
-    ...mapActions(['nextQuestion', 'setAnswer', 'loadInterviewQuestions']),
-    updateAnswer() {
-      this.setAnswer(this.answer);
+    ...mapMutations(['addInterviewQuestion']),
+    ...mapActions(['updateInterviewIndex', 'loadInterviewQuestions', 'saveSession']),
+    updateAnswer(questionId) {
+      console.log(questionId);
+      this.addInterviewQuestion({"questionId": questionId, "answer": this.answer});
     },
-    submitAnswer() {
-      this.updateAnswer();
+    nextQuestion(questionId) {
+      this.updateAnswer(questionId);
       if (this.currentQuestionIndex < this.interviewQuestions.length - 1) {
-        this.nextQuestion();
+        this.updateInterviewIndex();
         this.answer = '';
       } else {
         this.$router.push({ name: 'InterviewResult' });
       }
     },
-    stopAndMoveToResult() {
-      this.updateAnswer();
+    async endInterview(questionId) {
+      this.isLoading = true; // 요청 시작 시 로딩바 표시
+      await this.updateAnswer(questionId);
+      await this.saveSession();
+      this.isLoading = false; // 요청 완료 후 로딩바 숨기기
       this.$router.push({ name: 'InterviewResult' });
+      
     },
     generateSpeech() {
       const text = this.currentQuestion.question;
@@ -158,16 +181,5 @@ export default {
       this.recorder = null;
     },
   },
-  async created() {
-    try {
-      const response = await axios.get(`/public/interview/question/${this.$store.state.selectedRole.id}`);
-      this.loadInterviewQuestions(response.data);
-    } catch (error) {
-      console.error('Error fetching quizzes:', error);
-    }
-  },
-  mounted() {
-    this.answer = this.answers[this.currentQuestionIndex] || '';
-  }
 };
 </script>

@@ -19,7 +19,7 @@ public class InterviewQuestionService {
 
     @Transactional
     public void saveInterviewQuestion(InterviewQuestionRequest interviewQuestionRequest) {
-        InterviewCategory interviewCategory = interviewCategoryDAOService.findById(interviewQuestionRequest.getCategoryId());
+        InterviewCategory interviewCategory = interviewCategoryDAOService.findById(interviewQuestionRequest.categoryId());
         InterviewQuestion interviewQuestion = InterviewQuestion.create(interviewQuestionRequest, interviewCategory);
         interviewQuestionDAOService.saveInterviewQuestion(interviewQuestion);
     }
