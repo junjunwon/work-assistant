@@ -11,9 +11,14 @@
   </div>
 </template>
 <script>
+import { mapMutations } from 'vuex';
 export default {
   name: 'HomePage',
+  mounted() {
+    this.resetState();
+  },
   methods: {
+    ...mapMutations(['resetState']),
     goToJobSelection() {
       this.$router.push({ name: 'JobSelection' });
     },
