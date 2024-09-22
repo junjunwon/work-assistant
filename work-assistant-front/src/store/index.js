@@ -38,6 +38,10 @@ const store = createStore({
       state.currentQuestionIndex = 0;
       state.answers = [];
     },
+    resetAnswers(state) {
+      state.currentQuestionIndex = 0;
+      state.answers = [];
+    },
     setSessionId(state, sessionId) {
       state.sessionId = sessionId;
     }

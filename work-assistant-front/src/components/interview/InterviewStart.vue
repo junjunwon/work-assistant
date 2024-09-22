@@ -9,13 +9,17 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 
 export default {
+  mounted() {
+    this.resetAnswers();
+  },
   computed: {
     ...mapState(['selectedRole'])
   },
   methods: {
+    ...mapMutations(['resetAnswers']),
     ...mapActions(['createSession', 'loadInterviewQuestions', 'resetInterview']),
     async startInterview() {
       await this.createSession();

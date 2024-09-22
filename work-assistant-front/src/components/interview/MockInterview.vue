@@ -1,23 +1,65 @@
 <template>
   <div class="container">
+    <!-- 상단 로딩바 -->
+    <LoadingBar :isLoading="isLoading" />
+    <div class="card">
+      <!-- 상단 텍스트 -->
+      <h4>모의 면접 진행중...</h4>
+
+      <!-- 중간의 질문과 비디오 녹화 -->
+      <div class="content">
+        <div class="question-area">
+          <p v-if="currentQuestion" style="font-size: small;">{{ currentQuestion.question }} 
+            <button class="secondary" @click="generateSpeech">음성</button>
+          </p>
+          <p v-else>로딩 중...</p>
+          <textarea v-if="currentQuestion" 
+              v-model="answer" 
+              placeholder="답변을 입력하세요" 
+              class="oxford-textarea">
+          </textarea>
+        </div>
+
+        <div class="video-area">
+          <div><video controls autoplay playsinline ref="video" height="300" width="400"></video></div>
+          <div class="bottom-middle-group">
+            <button id="btn-start-recording" :disabled="disabled" @click="startRec" class="primary">녹화 시작</button>
+            <button id="btn-stop-recording" :disabled="!disabled" @click="stopRec" class="primary">녹화 중지</button>
+          </div>
+          <p v-if="finalTranscripts.length">{{ finalTranscripts.join(' ') }}</p>
+        </div>
+      </div>
+    </div>
+    <!-- 하단 버튼 -->
+    <div class="bottom-middle-group">
+        <button class="primary" v-if="currentQuestion" @click="nextQuestion(currentQuestion)">다음 질문</button>
+        <button class="primary" v-if="currentQuestion" @click="endInterview(currentQuestion)">답변 저장 후 면접 종료하기</button>
+    </div>
+  </div>
+</template>
+<!-- <template>
+  <div class="container">
     <LoadingBar :isLoading="isLoading" />
     <div class="card">
       <h2>면접 진행 중...</h2>
       <p v-if="currentQuestion">{{ currentQuestion.question }} <button class="secondary" @click="generateSpeech" >음성</button></p>
       <p v-else>로딩 중...</p>
-
-      <input v-if="currentQuestion" type="text" v-model="answer" @keyup.enter="nextQuestion(currentQuestion)" placeholder="답변을 입력하세요" />
-      <button class="primary" v-if="currentQuestion" @click="nextQuestion(currentQuestion)">다음 질문</button>
-      <button class="primary" v-if="currentQuestion" @click="endInterview(currentQuestion)">답변 저장 후 면접 종료하기</button>
       <div>
-        <button id="btn-start-recording" :disabled="disabled" @click="startRec" class="primary">녹화시작</button>
-        <button id="btn-stop-recording" :disabled="!disabled" @click="stopRec" class="primary">녹화중지</button>
-        <video controls autoplay playsinline ref="video" height="300" width="400"></video>
+        <input v-if="currentQuestion" type="text" v-model="answer" @keyup.enter="nextQuestion(currentQuestion)" placeholder="답변을 입력하세요" />
+        <div>
+          <div><video controls autoplay playsinline ref="video" height="300" width="400"></video></div>
+          <button id="btn-start-recording" :disabled="disabled" @click="startRec" class="primary">녹화시작</button>
+          <button id="btn-stop-recording" :disabled="!disabled" @click="stopRec" class="primary">녹화중지</button>
+        </div>
+        <p v-if="finalTranscripts.length">{{ finalTranscripts.join(' ') }}</p>
       </div>
-      <p v-if="finalTranscripts.length">{{ finalTranscripts.join(' ') }}</p>
+      <div>
+        <button class="primary" v-if="currentQuestion" @click="nextQuestion(currentQuestion)">다음 질문</button>
+        <button class="primary" v-if="currentQuestion" @click="endInterview(currentQuestion)">답변 저장 후 면접 종료하기</button>
+      </div>
     </div>
   </div>
-</template>
+</template> -->
 
 <script>
 import axios from '../../plugins/axios';

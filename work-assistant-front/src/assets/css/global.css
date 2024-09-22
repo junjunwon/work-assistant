@@ -20,6 +20,33 @@ body {
     padding: 20px;
 }
 
+.card {
+    background: white;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    flex: 1;
+    padding: 20px;
+  }
+  
+.question-area {
+    flex: 1;
+    text-align: left;
+    padding-right: 20px;
+}
+
+.video-area {
+    flex: 1;
+    text-align: right;
+}
+
 .header {
     color: #4A90E2;
     padding: 20px;
@@ -31,24 +58,13 @@ body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* .button {
-    background-color: #4A90E2;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    font-size: 16px;
-    font-weight: 500;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.button:hover {
-    background-color: #357ABD;
-    transform: translateY(-2px);
-} */
  /* 기본 버튼 스타일 */
+
+.bottom-middle-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* 버튼 사이의 간격 */
+}
 button {
     background-color: #6200ea; /* 메인 색상 (보라색) */
     color: white; /* 텍스트 색상 */
@@ -99,15 +115,6 @@ button.secondary {
 button.secondary.large {
     padding: 15px 30px;
     font-size: 18px;
-}
-
-
-.card {
-    background: white;
-    padding: 20px;
-    margin: 20px 0;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -164,3 +171,112 @@ form {
     width: 100%;
     bottom: 0;
 }
+
+.loading-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: blue;
+    animation: loading 1s infinite;
+  }
+  
+@keyframes loading {
+    0% { width: 0; }
+    100% { width: 100%; }
+}
+
+/* 테이블 */
+.response-table {
+    max-width: 600px;
+    /* margin: 20px auto; */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .session-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 또는 flex-start, flex-end에 따라 조정 */
+    margin-bottom: 20px; /* 테이블과의 간격 조정 */
+  }
+
+  h2, h3, h4 {
+  margin: 0 10px; /* 각 요소 간 간격 */
+}
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+
+  /* 노트 스타일 */
+  .oxford-textarea {
+    /* 넓이 및 패딩 */
+    width: 100%;
+    padding: 2px 16px;
+  
+    /* 반응형 높이 설정 */
+    min-height: 150px;
+    max-height: 50vh;
+    height: auto;
+  
+    /* 여백과 글씨 크기 */
+    margin: 10px 0;
+    font-size: 16px;
+    font-family: 'Times New Roman', serif;
+  
+    /* 테두리 및 모서리 둥글게 */
+    border: 1px solid #c0c0c0;
+    border-radius: 4px;
+  
+    /* 옥스포드 노트 느낌의 배경 색상 */
+    background-color: #fff8dc; /* 노란 종이 색상 (Light Yellow) */
+  
+    /* 가로줄 추가: 투명과 회색 줄을 반복해서 노트 느낌 만들기 */
+    background-image: linear-gradient(transparent 85%, rgba(0, 0, 0, 0.1) 85%);
+    background-size: 100% 32px; /* 줄 간격 조정 */
+    background-attachment: local; /* 스크롤 시 줄 고정 */
+  
+    /* 텍스트 줄 간격 설정 */
+    line-height: 32px;
+  
+    /* 텍스트 입력 시 수직으로 스크롤 가능 */
+    overflow-y: auto;
+  
+    /* 외부 윤곽선 제거 */
+    outline: none;
+  
+    /* 테두리와 그림자 효과의 부드러운 전환 */
+    transition: box-shadow 0.2s ease-in-out, border 0.2s ease-in-out;
+  }
+  
+  /* 포커스 시 효과 */
+  .oxford-textarea:focus {
+    /* 포커스 시 테두리 색상 변경 */
+    border: 1px solid #6b8e23;
+  
+    /* 포커스 시 그림자 효과 */
+    box-shadow: 0 0 5px rgba(107, 142, 35, 0.5);
+  }
+  
+  /* 플레이스홀더 스타일 */
+  .oxford-textarea::placeholder {
+    /* 플레이스홀더 색상 */
+    color: #a0a0a0;
+    font-style: italic;
+  }
