@@ -4,12 +4,12 @@
     <LoadingBar :isLoading="isLoading" />
     <div class="card">
       <!-- 상단 텍스트 -->
-      <h4>모의 면접 진행중...</h4>
+      <h3>모의 면접 진행중...</h3>
 
       <!-- 중간의 질문과 비디오 녹화 -->
       <div class="content">
         <div class="question-area">
-          <p v-if="currentQuestion" style="font-size: small;">{{ currentQuestion.question }} 
+          <p v-if="currentQuestion">{{ currentQuestion.question }} 
             <button class="secondary" @click="generateSpeech">음성</button>
           </p>
           <p v-else>로딩 중...</p>
