@@ -3,8 +3,6 @@
     <div class="card">
       <h2>모든 면접이 종료되었습니다.</h2>
       <p >결과를 확인해볼까요?</p>
-      <button class="primary large" @click="showResult">확인하러가기</button>
-      <button class="primary large" @click="restartInterview">처음으로 가기</button>
       <div v-if="showingResult">
         <!-- 결과 테이블 -->
         <div class="response-table">

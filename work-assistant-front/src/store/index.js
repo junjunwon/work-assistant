@@ -76,10 +76,10 @@ const store = createStore({
         console.error('Error creating session:', error);
       }
     },
-    saveSession({ state }) {
+    async saveSession({ state }) {
       const sessionId = state.sessionId;
       try {
-        axios.put(`/public/interview/session/${sessionId}/answers`, 
+        await axios.put(`/public/interview/session/${sessionId}/answers`, 
           JSON.parse(JSON.stringify(state.answers)))
       } catch (error) {
         console.error('Error saveing session:', error);
