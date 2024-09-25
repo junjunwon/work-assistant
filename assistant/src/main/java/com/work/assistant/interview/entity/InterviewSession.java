@@ -13,8 +13,8 @@ package com.work.assistant.interview.entity;
  */
 
 import com.work.assistant.common.audit.Auditing;
-import com.work.assistant.job.entity.Job;
-import com.work.assistant.job.entity.Role;
+import com.work.assistant.job.entity.Interview;
+import com.work.assistant.job.entity.Skill;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -32,30 +32,30 @@ public class InterviewSession extends Auditing {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "job_id", nullable = false)
-    private Job job;
+    @JoinColumn(name = "interview_id", nullable = false)
+    private Interview interview;
 
     @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false)
-    private Role role;
+    @JoinColumn(name = "skill_id", nullable = false)
+    private Skill skill;
 
     @OneToMany(mappedBy = "interviewSession")
     private List<InterviewAnswer> interviewAnswers;
 
-    public InterviewSession(Job job, Role role) {
-        this.job = job;
-        this.role = role;
+    public InterviewSession(Interview interview, Skill skill) {
+        this.interview = interview;
+        this.skill = skill;
     }
 
     public void updateInterviewAnswers(List<InterviewAnswer> interviewAnswers) {
         this.interviewAnswers = interviewAnswers;
     }
 
-    public String getJobTitle() {
-        return this.job.getTitle();
+    public String getInterviewTitle() {
+        return this.interview.getTitle();
     }
 
-    public String getRoleTitle() {
-        return this.role.getTitle();
+    public String getSkillTitle() {
+        return this.skill.getTitle();
     }
 }

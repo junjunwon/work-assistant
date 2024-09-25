@@ -12,15 +12,11 @@ import java.util.List;
 public class InterviewQuestionDAOService {
     private final InterviewQuestionRepository interviewQuestionRepository;
 
-    public void saveInterviewQuestion(InterviewQuestion interviewQuestion) {
-        interviewQuestionRepository.save(interviewQuestion);
-    }
-
     public List<InterviewQuestion> findInterviewQuestions() {
         return interviewQuestionRepository.findAll();
     }
 
-    public List<InterviewQuestion> findInterviewQuestionsByRoleId(Long roleId) {
-        return interviewQuestionRepository.findByRoleId(roleId);
+    public List<InterviewQuestion> findInterviewQuestionsBySkillId(Long skillId) {
+        return interviewQuestionRepository.findBySkillId(skillId);
     }
 }

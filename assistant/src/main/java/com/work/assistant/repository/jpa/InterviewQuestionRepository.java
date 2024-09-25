@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface InterviewQuestionRepository extends JpaRepository<InterviewQuestion, Long> {
-    List<InterviewQuestion> findByRoleId(Long roleId);
+    List<InterviewQuestion> findBySkillId(Long roleId);
 }

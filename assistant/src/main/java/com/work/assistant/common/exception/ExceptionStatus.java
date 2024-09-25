@@ -32,8 +32,8 @@ public enum ExceptionStatus {
     /**
      * interview
      */
-    WRONG_JOB(404, "직종이 존재하지 않습니다."),
-    WRONG_ROLE(404, "직무가 존재하지 않습니다."),
+    WRONG_INTERVIEW(404, "선택한 인터뷰가 존재하지 않습니다."),
+    WRONG_SKILL(404, "SKILL이 존재하지 않습니다."),
     WRONG_CATEGORY(404, "질문 카테고리가 존재하지 않습니다."),
     WRONG_SESSION(404, "인터뷰 세션이 존재하지 않습니다.")
     ;

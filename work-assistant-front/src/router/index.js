@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '../views/HomePage.vue';
-import JobSelection from '../components/interview/JobSelection.vue';
+import InterviewSelection from '../components/interview/InterviewSelection.vue';
 import InterviewResult from '../components/interview/InterviewResult.vue';
 import MockInterview from '../components/interview/MockInterview.vue';
 import InterviewStart from '../components/interview/InterviewStart.vue';
-import RoleSelection from '../components/interview/RoleSelection.vue';
+import SkillSelection from '../components/interview/SkillSelection.vue';
 
 const routes = [
   {
@@ -13,9 +13,9 @@ const routes = [
     component: HomePage
   },
   {
-    path: '/job-selection',
-    name: 'JobSelection',
-    component: JobSelection
+    path: '/interview-selection',
+    name: 'InterviewSelection',
+    component: InterviewSelection
   },
   {
     path: '/interview-result',
@@ -33,10 +33,10 @@ const routes = [
     component: InterviewStart
   },
   {
-    path: '/role-selection',
-    name: 'RoleSelection',
-    component: RoleSelection,
-    props: route => ({ job: route.params.job })
+    path: '/skill-selection',
+    name: 'SkillSelection',
+    component: SkillSelection,
+    props: route => ({ interview: route.params.interview })
   }
 ];
 

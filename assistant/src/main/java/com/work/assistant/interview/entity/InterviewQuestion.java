@@ -5,7 +5,7 @@ package com.work.assistant.interview.entity;
  */
 
 import com.work.assistant.common.audit.Auditing;
-import com.work.assistant.job.entity.Role;
+import com.work.assistant.job.entity.Skill;
 import com.work.assistant.interview.request.InterviewQuestionRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -27,23 +27,17 @@ public class InterviewQuestion extends Auditing {
     private String idealAnswer; // 이상적인 답변을 위한 필드 추가
 
     @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @JoinColumn(name = "skill_id")
+    private Skill skill;
 
-    @ManyToOne
-    @JoinColumn(name = "interview_category_id")
-    private InterviewCategory interviewCategory;
-
-    public InterviewQuestion(String question, String idealAnswer, InterviewCategory interviewCategory) {
+    public InterviewQuestion(String question, String idealAnswer) {
         this.question = question;
         this.idealAnswer = idealAnswer;
-        this.interviewCategory = interviewCategory;
     }
 
-    public static InterviewQuestion create(InterviewQuestionRequest interviewQuestionRequest, InterviewCategory interviewCategory) {
+    public static InterviewQuestion create(InterviewQuestionRequest interviewQuestionRequest) {
         return new InterviewQuestion(interviewQuestionRequest.question(),
-                interviewQuestionRequest.idealAnswer(),
-                interviewCategory
+                interviewQuestionRequest.idealAnswer()
         );
     }
 }

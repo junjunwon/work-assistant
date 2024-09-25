@@ -1,8 +1,6 @@
 package com.work.assistant.interview.service;
 
-import com.work.assistant.interview.entity.InterviewCategory;
 import com.work.assistant.interview.entity.InterviewQuestion;
-import com.work.assistant.interview.request.InterviewQuestionRequest;
 import com.work.assistant.interview.request.InterviewQuestionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,14 +13,6 @@ import java.util.List;
 public class InterviewQuestionService {
 
     private final InterviewQuestionDAOService interviewQuestionDAOService;
-    private final InterviewCategoryDAOService interviewCategoryDAOService;
-
-    @Transactional
-    public void saveInterviewQuestion(InterviewQuestionRequest interviewQuestionRequest) {
-        InterviewCategory interviewCategory = interviewCategoryDAOService.findById(interviewQuestionRequest.categoryId());
-        InterviewQuestion interviewQuestion = InterviewQuestion.create(interviewQuestionRequest, interviewCategory);
-        interviewQuestionDAOService.saveInterviewQuestion(interviewQuestion);
-    }
 
     @Transactional(readOnly = true)
     public List<InterviewQuestionResponse> findInterviewQuestions() {
@@ -33,8 +23,8 @@ public class InterviewQuestionService {
     }
 
     @Transactional(readOnly = true)
-    public List<InterviewQuestionResponse> getQuizzesByRoleId(Long roleId) {
-        List<InterviewQuestion> interviewQuestionList = interviewQuestionDAOService.findInterviewQuestionsByRoleId(roleId);
+    public List<InterviewQuestionResponse> getQuestionsBySkillId(Long skillId) {
+        List<InterviewQuestion> interviewQuestionList = interviewQuestionDAOService.findInterviewQuestionsBySkillId(skillId);
         return interviewQuestionList.stream()
                 .map(InterviewQuestionResponse::of)
                 .toList();

@@ -3,14 +3,13 @@ package com.work.assistant.interview.service;
 import com.work.assistant.interview.entity.InterviewAnswer;
 import com.work.assistant.interview.entity.InterviewSession;
 import com.work.assistant.interview.request.InterviewAnswerRequest;
-import com.work.assistant.interview.request.InterviewQuestionResponse;
 import com.work.assistant.interview.request.InterviewSessionRequest;
 import com.work.assistant.interview.response.InterviewSessionResponse;
 import com.work.assistant.interview.response.QuestionAsnwerResponse;
-import com.work.assistant.job.entity.Job;
-import com.work.assistant.job.entity.Role;
-import com.work.assistant.job.service.JobDAOService;
-import com.work.assistant.job.service.RoleDAOService;
+import com.work.assistant.job.entity.Interview;
+import com.work.assistant.job.entity.Skill;
+import com.work.assistant.job.service.InterviewDAOService;
+import com.work.assistant.job.service.SkillDAOService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,15 +23,15 @@ public class InterviewSessionService {
 
     private final InterviewSessionDaoService interviewSessionDaoService;
     private final InterviewAnswerDaoService interviewAnswerDaoService;
-    private final JobDAOService jobDAOService;
-    private final RoleDAOService roleDAOService;
+    private final InterviewDAOService interviewDAOService;
+    private final SkillDAOService skillDAOService;
 
     @Transactional
     public Long save(InterviewSessionRequest sessionRequest) {
-        Job job = jobDAOService.findByJobId(sessionRequest.jobId());
-        Role role = roleDAOService.findByRoleId(sessionRequest.roleId());
+        Interview interview = interviewDAOService.findByJobId(sessionRequest.interviewId());
+        Skill skill = skillDAOService.findBySkillId(sessionRequest.skillId());
 
-        InterviewSession interviewSession = new InterviewSession(job, role);
+        InterviewSession interviewSession = new InterviewSession(interview, skill);
 
         interviewSessionDaoService.save(interviewSession);
 
@@ -63,12 +62,12 @@ public class InterviewSessionService {
                 .map(QuestionAsnwerResponse::of)
                 .toList();
 
-        String jobTitle = interviewSession.getJobTitle();
-        String roleTitle = interviewSession.getRoleTitle();
+        String interviewTitle = interviewSession.getInterviewTitle();
+        String skillTitle = interviewSession.getSkillTitle();
 
         return new InterviewSessionResponse(
                 interviewSession.getId(),
-                jobTitle, roleTitle, responses
+                interviewTitle, skillTitle, responses
         );
     }
 }

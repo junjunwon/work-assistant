@@ -7,8 +7,8 @@
         <!-- 결과 테이블 -->
         <div class="response-table">
           <div class="session-info">
-            <h4>직종 : {{ responseData.jobTitle }}</h4>
-            <h4>직무 : {{ responseData.roleTitle }}</h4>
+            <h4>인터뷰 유형 : {{ responseData.interviewTitle }}</h4>
+            <h4>기술 : {{ responseData.skillTitle }}</h4>
           </div>
           <table>
             <thead>
@@ -41,8 +41,8 @@ export default {
       showingResult: false,
       responseData: {
         sessionId: null,
-        jobTitle: '',
-        roleTitle: '',
+        interviewTitle: '',
+        skillTitle: '',
         questionAnswerResponses: []
       }
     };

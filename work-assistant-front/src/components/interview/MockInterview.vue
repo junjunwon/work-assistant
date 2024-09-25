@@ -32,6 +32,7 @@
     </div>
     <!-- 하단 버튼 -->
     <div class="bottom-middle-group">
+      <button class="primary" v-if="currentQuestion" @click="previousQuestion()">이전 질문</button>
         <button class="primary" v-if="currentQuestion" @click="nextQuestion(currentQuestion)">다음 질문</button>
         <button class="primary" v-if="currentQuestion" @click="endInterview(currentQuestion)">답변 저장 후 면접 종료하기</button>
     </div>
@@ -94,7 +95,7 @@ export default {
   },
   async created() {
     try {
-      const response = await axios.get(`/public/interview/question/${this.$store.state.selectedRole.id}`);
+      const response = await axios.get(`/public/interview/question/${this.$store.state.selectedSkill.id}`);
       this.loadInterviewQuestions(response.data);
     } catch (error) {
       console.error('Error fetching quizzes:', error);
@@ -104,11 +105,18 @@ export default {
     this.answer = this.answers[this.currentQuestionIndex] || '';
   },
   methods: {
-    ...mapMutations(['addInterviewQuestion']),
+    ...mapMutations(['addInterviewQuestion', 'decrementQuestionIndex']),
     ...mapActions(['updateInterviewIndex', 'loadInterviewQuestions', 'saveSession']),
     updateAnswer(question) {
       console.log(question);
       this.addInterviewQuestion({"questionId": question.id, "question": question.question, "answer": this.answer});
+    },
+    previousQuestion() {
+      if (this.currentQuestionIndex === 0) {
+        alert('첫번째 질문입니다.');
+        return;
+      }
+      this.decrementQuestionIndex();
     },
     nextQuestion(question) {
       this.updateAnswer(question);

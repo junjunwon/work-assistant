@@ -4,25 +4,28 @@ import axios from '../plugins/axios';
 
 const store = createStore({
   state: {
-    selectedJob: null,
-    selectedRole: null,
+    selectedInterview: null,
+    selectedSkill: null,
     interviewQuestions: [],
     currentQuestionIndex: 0,
     answers: [],
     sessionId: null
   },
   mutations: {
-    setSelectedJob(state, job) {
-      state.selectedJob = job;
+    setSelectedInterview(state, interview) {
+      state.selectedInterview = interview;
     },
-    setSelectedRole(state, role) {
-      state.selectedRole = role;
+    setSelectedSkill(state, skill) {
+      state.selectedSkill = skill;
     },
     setInterviewQuestions(state, questions) {
       state.interviewQuestions = questions;
     },
     incrementQuestionIndex(state) {
       state.currentQuestionIndex++;
+    },
+    decrementQuestionIndex(state) {
+      state.currentQuestionIndex--;
     },
     resetQuestionIndex(state) {
       state.currentQuestionIndex = 0;
@@ -32,8 +35,8 @@ const store = createStore({
       state.answers.push(answer); // 질의응답을 배열에 추가
     },
     resetState(state) {
-      state.selectedJob = null;
-      state.selectedRole = null;
+      state.selectedInterview = null;
+      state.selectedSkill = null;
       state.interviewQuestions = [];
       state.currentQuestionIndex = 0;
       state.answers = [];
@@ -47,11 +50,11 @@ const store = createStore({
     }
   },
   actions: {
-    selectJob({ commit }, job) {
-      commit('setSelectedJob', job);
+    selectInterview({ commit }, interview) {
+      commit('setSelectedInterview', interview);
     },
-    selectRole({ commit }, role) {
-      commit('setSelectedRole', role);
+    selectSkill({ commit }, skill) {
+      commit('setSelectedSkill', skill);
     },
     loadInterviewQuestions({ commit }, questions) {
       commit('setInterviewQuestions', questions);
@@ -68,8 +71,8 @@ const store = createStore({
     async createSession({ commit, state }) {
       try {
         const response = await axios.post('/public/interview/session', {
-          jobId: state.selectedJob.id,
-          roleId: state.selectedRole.id
+          interviewId: state.selectedInterview.id,
+          skillId: state.selectedSkill.id
         });
         commit('setSessionId', response.data);
       } catch (error) {

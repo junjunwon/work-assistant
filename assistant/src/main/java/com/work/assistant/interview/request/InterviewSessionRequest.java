@@ -1,4 +1,4 @@
 package com.work.assistant.interview.request;
 
-public record InterviewSessionRequest (Long id, Long jobId, Long roleId) {
+public record InterviewSessionRequest (Long id, Long interviewId, Long skillId) {
 }

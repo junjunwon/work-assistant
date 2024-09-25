@@ -1,24 +1,21 @@
-package com.work.assistant.interview.entity;
+package com.work.assistant.job.entity;
 
 import com.work.assistant.common.audit.Auditing;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class InterviewCategory extends Auditing {
-
+public class Interview extends Auditing  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
-    @OneToMany(mappedBy = "interviewCategory")
-    private List<InterviewQuestion> questions;
+    private String title;
 }

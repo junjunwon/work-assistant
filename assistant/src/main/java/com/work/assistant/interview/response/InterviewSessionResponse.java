@@ -4,8 +4,8 @@ import java.util.List;
 
 public record InterviewSessionResponse (
     Long sessionId,
-    String jobTitle,
-    String roleTitle,
+    String interviewTitle,
+    String skillTitle,
     List<QuestionAsnwerResponse> questionAnswerResponses
 ) {
 }
