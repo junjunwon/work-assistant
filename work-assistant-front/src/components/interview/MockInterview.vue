@@ -38,32 +38,9 @@
     </div>
   </div>
 </template>
-<!-- <template>
-  <div class="container">
-    <LoadingBar :isLoading="isLoading" />
-    <div class="card">
-      <h2>면접 진행 중...</h2>
-      <p v-if="currentQuestion">{{ currentQuestion.question }} <button class="secondary" @click="generateSpeech" >음성</button></p>
-      <p v-else>로딩 중...</p>
-      <div>
-        <input v-if="currentQuestion" type="text" v-model="answer" @keyup.enter="nextQuestion(currentQuestion)" placeholder="답변을 입력하세요" />
-        <div>
-          <div><video controls autoplay playsinline ref="video" height="300" width="400"></video></div>
-          <button id="btn-start-recording" :disabled="disabled" @click="startRec" class="primary">녹화시작</button>
-          <button id="btn-stop-recording" :disabled="!disabled" @click="stopRec" class="primary">녹화중지</button>
-        </div>
-        <p v-if="finalTranscripts.length">{{ finalTranscripts.join(' ') }}</p>
-      </div>
-      <div>
-        <button class="primary" v-if="currentQuestion" @click="nextQuestion(currentQuestion)">다음 질문</button>
-        <button class="primary" v-if="currentQuestion" @click="endInterview(currentQuestion)">답변 저장 후 면접 종료하기</button>
-      </div>
-    </div>
-  </div>
-</template> -->
 
 <script>
-import axios from '../../plugins/axios';
+// import axios from '../../plugins/axios';
 import { mapState, mapMutations, mapActions, mapGetters } from 'vuex';
 import RecordRTC from "recordrtc";
 import LoadingBar from '../util/LoadingBar.vue';
@@ -93,14 +70,6 @@ export default {
       this.answer = this.answers[newIndex] || '';
     }
   },
-  async created() {
-    try {
-      const response = await axios.get(`/public/interview/question/${this.$store.state.selectedSkill.id}`);
-      this.loadInterviewQuestions(response.data);
-    } catch (error) {
-      console.error('Error fetching quizzes:', error);
-    }
-  },
   mounted() {
     this.answer = this.answers[this.currentQuestionIndex] || '';
   },
@@ -119,12 +88,12 @@ export default {
       this.decrementQuestionIndex();
     },
     nextQuestion(question) {
-      this.updateAnswer(question);
       if (this.currentQuestionIndex < this.interviewQuestions.length - 1) {
+        this.updateAnswer(question);
         this.updateInterviewIndex();
         this.answer = '';
       } else {
-        this.$router.push({ name: 'InterviewResult' });
+        this.endInterview(question);
       }
     },
     async endInterview(question) {

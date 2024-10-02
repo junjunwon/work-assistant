@@ -280,3 +280,10 @@ form {
     color: #a0a0a0;
     font-style: italic;
   }
+
+  /* 콤보박스 크기를 줄이기 위한 스타일 */
+select {
+    width: 100px; /* 너비 설정 */
+    padding: 5px; /* 내부 여백 줄이기 */
+    font-size: 12px; /* 글자 크기 줄이기 */
+  }
