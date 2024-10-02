@@ -13,6 +13,7 @@ import java.util.List;
 public class InterviewQuestionService {
 
     private final InterviewQuestionDAOService interviewQuestionDAOService;
+    private final InterviewQuestionQueryService interviewQuestionQueryService;
 
     @Transactional(readOnly = true)
     public List<InterviewQuestionResponse> findInterviewQuestions() {
@@ -23,8 +24,8 @@ public class InterviewQuestionService {
     }
 
     @Transactional(readOnly = true)
-    public List<InterviewQuestionResponse> getQuestionsBySkillId(Long skillId) {
-        List<InterviewQuestion> interviewQuestionList = interviewQuestionDAOService.findInterviewQuestionsBySkillId(skillId);
+    public List<InterviewQuestionResponse> getQuestionsBySkillId(Long skillId, long numberOfQuestions) {
+        List<InterviewQuestion> interviewQuestionList = interviewQuestionQueryService.findRandomQuestions(skillId, numberOfQuestions);
         return interviewQuestionList.stream()
                 .map(InterviewQuestionResponse::of)
                 .toList();

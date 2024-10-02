@@ -4,6 +4,7 @@ import com.work.assistant.interview.entity.InterviewQuestion;
 import com.work.assistant.repository.jpa.InterviewQuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,11 +13,8 @@ import java.util.List;
 public class InterviewQuestionDAOService {
     private final InterviewQuestionRepository interviewQuestionRepository;
 
+    @Transactional(readOnly = true)
     public List<InterviewQuestion> findInterviewQuestions() {
         return interviewQuestionRepository.findAll();
-    }
-
-    public List<InterviewQuestion> findInterviewQuestionsBySkillId(Long skillId) {
-        return interviewQuestionRepository.findBySkillId(skillId);
     }
 }

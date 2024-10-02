@@ -5,6 +5,7 @@ import com.work.assistant.security.dto.SecurityExceptionDto;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
@@ -15,7 +16,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 @Component
+@RequiredArgsConstructor
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+
+    private final ObjectMapper objectMapper;
 
     private static final SecurityExceptionDto exceptionDto =
         new SecurityExceptionDto(HttpStatus.FORBIDDEN.value(),
@@ -29,7 +33,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         response.setStatus(HttpStatus.FORBIDDEN.value());
 
         try (OutputStream os = response.getOutputStream()) {
-            ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.writeValue(os, exceptionDto);
             os.flush();
         }

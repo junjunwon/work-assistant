@@ -4,10 +4,7 @@ import com.work.assistant.interview.request.InterviewQuestionResponse;
 import com.work.assistant.interview.service.InterviewQuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,7 +21,7 @@ public class InterviewQuestionController {
     }
 
     @GetMapping("/{roleId}")
-    public ResponseEntity<List<InterviewQuestionResponse>> getQuizzesByRoleId(@PathVariable Long roleId) {
-        return ResponseEntity.ok(interviewQuestionService.getQuestionsBySkillId(roleId));
+    public ResponseEntity<List<InterviewQuestionResponse>> getQuizzesByRoleId(@PathVariable Long roleId, @RequestParam long numberOfQuestions) {
+        return ResponseEntity.ok(interviewQuestionService.getQuestionsBySkillId(roleId, numberOfQuestions));
     }
 }
