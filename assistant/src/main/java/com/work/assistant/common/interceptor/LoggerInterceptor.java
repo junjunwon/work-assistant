@@ -1,4 +1,4 @@
-﻿package com.work.assistant.common.interceptor;
+package com.work.assistant.common.interceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -49,6 +49,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
             final String curr = (String) e.nextElement();
             posted.append(curr)
                 .append("=");
+            //TODO: 로그인 기능이 추가되었을때 수정이 필요할 수 있음
             if (curr.contains("password") || curr.contains("answer") || curr.contains("pwd")) {
                 posted.append("*****");
             } else {

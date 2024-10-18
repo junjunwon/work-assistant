@@ -1,4 +1,4 @@
-﻿package com.work.assistant.config;
+package com.work.assistant.config;
 
 import com.work.assistant.common.interceptor.LoggerInterceptor;
 import org.springframework.context.annotation.ComponentScan;
