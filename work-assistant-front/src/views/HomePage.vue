@@ -1,13 +1,15 @@
 <template>
   <div class="container">
-    <div class="header">
-      <h1>개발자 모의면접 사이트</h1>
-      <h2>라이프타임 면접 준비 플랫폼</h2>
-    </div>
-    <div class="card">
-      <button class="primary large" @click="goToInterviewSelection">유형별 면접보러가기</button>
-      <!-- <button class="primary large" @click="goToCompanySelection">회사별 기출면접보러가기</button> -->
-    </div>
+      <div class="box">
+        <p class="title">면접만큼은 커밋 취소가 안 됩니다. <br />지금부터 리허설 시작!</p>
+        <p class="subtitle">당신의 면접을 시뮬레이션 해보세요 🤓</p>
+      </div>
+      <div class="box">
+        <button class="button-text" @click="goToInterviewSelection">START</button>
+      </div>
+      <div class="box image-box">
+        <img src="@/assets/otter_ character.png" alt="면접 리허설 이미지" class="image" />
+      </div>
   </div>
 </template>
 <script>
