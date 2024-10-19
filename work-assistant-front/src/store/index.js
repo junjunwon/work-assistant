@@ -30,8 +30,8 @@ const store = createStore({
     resetQuestionIndex(state) {
       state.currentQuestionIndex = 0;
     },
-    // 개별 질문을 추가하는 mutation
-    addInterviewQuestion(state, answer) {
+    // 개별 질의응답을 추가하는 mutation
+    addInterviewQA(state, answer) {
       state.answers.push(answer); // 질의응답을 배열에 추가
     },
     resetState(state) {
