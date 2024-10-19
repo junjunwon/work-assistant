@@ -3,38 +3,40 @@
     <!-- 상단 로딩바 -->
     <LoadingBar :isLoading="isLoading" />
     <div class="card">
-      <!-- 상단 텍스트 -->
-      <h3>모의 면접 진행중...</h3>
-
       <!-- 중간의 질문과 비디오 녹화 -->
       <div class="content">
         <div class="question-area">
-          <p v-if="currentQuestion">{{ currentQuestion.question }} 
-            <button class="secondary" @click="generateSpeech">음성</button>
+          <p v-if="currentQuestion">{{ currentQuestion.question }}
+            <span @click="generateSpeech" class="speaker -on"></span>
           </p>
           <p v-else>로딩 중...</p>
-          <textarea v-if="currentQuestion" 
-              v-model="answer" 
-              placeholder="답변을 입력하세요" 
-              class="oxford-textarea">
-          </textarea>
         </div>
 
-        <div class="video-area">
-          <div><video controls autoplay playsinline ref="video" height="300" width="400"></video></div>
-          <div class="bottom-middle-group">
-            <button id="btn-start-recording" :disabled="disabled" @click="startRec" class="primary">녹화 시작</button>
-            <button id="btn-stop-recording" :disabled="!disabled" @click="stopRec" class="primary">녹화 중지</button>
+        <div class="box" style="width: 800px">
+          <div class="video-area" style="float: left;">
+            <video controls autoplay playsinline ref="video" height="300" width="400"></video>
+            <div>
+              <button class="button-small" id="btn-start-recording" :disabled="disabled" @click="startRec">녹화 시작</button>
+              <button class="button-small" id="btn-stop-recording" :disabled="!disabled" @click="stopRec">녹화 중지</button>
+            </div>
+            <p v-if="finalTranscripts.length">{{ finalTranscripts.join(' ') }}</p>
           </div>
-          <p v-if="finalTranscripts.length">{{ finalTranscripts.join(' ') }}</p>
+          <div class="answer-area" >
+            <textarea v-if="currentQuestion"
+                      v-model="answer"
+                      placeholder="답변을 입력하세요"
+                      class="oxford-textarea">
+            </textarea>
+          </div>
         </div>
+
       </div>
     </div>
     <!-- 하단 버튼 -->
-    <div class="bottom-middle-group">
-      <button class="primary" v-if="currentQuestion" @click="previousQuestion()">이전 질문</button>
-        <button class="primary" v-if="currentQuestion" @click="nextQuestion(currentQuestion)">다음 질문</button>
-        <button class="primary" v-if="currentQuestion" @click="endInterview(currentQuestion)">답변 저장 후 면접 종료하기</button>
+    <div class="box">
+      <button v-if="currentQuestion" @click="previousQuestion()">이전 질문</button>
+      <button v-if="currentQuestion" @click="nextQuestion(currentQuestion)">다음 질문</button>
+      <button style="width: 250px" v-if="currentQuestion" @click="endInterview(currentQuestion)">답변 저장 후 면접 종료하기</button>
     </div>
   </div>
 </template>

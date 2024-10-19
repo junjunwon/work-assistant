@@ -25,8 +25,9 @@
             </tbody>
           </table>
         </div>
-        <!-- <button class="primary large" @click="downloadFeedback">피드백 다운로드 (유료 서비스)</button> -->
-        <button class="primary large" @click="restartInterview">처음으로 가기</button>
+      </div>
+      <div class="box">
+        <button @click="restartInterview">처음으로 가기</button>
       </div>
     </div>
   </div>
