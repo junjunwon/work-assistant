@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <div class="card">
-      <h2>개발자 모의면접 사이트에 오신 걸 환영합니다.</h2>
-      <p>면접 유형을 선택해주세요.</p>
-      <div v-for="interview in interviews" :key="interview.id">
-        <button class="primary" @click="selectInterviewMethod(interview)">{{ interview.title }}</button>
+      <h2 class="subtitle">개발자 모의면접 사이트에 오신 걸 환영합니다.</h2>
+      <p class="subtitle">면접 유형을 선택해주세요.</p>
+      <div class="box" v-for="interview in interviews" :key="interview.id">
+        <button class="button-text" @click="selectInterviewMethod(interview)">{{ interview.title }}</button>
       </div>
     </div>
   </div>

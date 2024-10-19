@@ -1,10 +1,12 @@
 <template>
   <div class="container">
     <div class="card">
-      <h2 v-if="selectedInterview">{{ selectedInterview.title }} 의 상세 기술을 선택해주세요.</h2>
+      <h2 class="subtitle" v-if="selectedInterview">{{ selectedInterview.title }}의 상세 기술을 선택해주세요.</h2>
       <h2 v-else>Loading...</h2>
-      <div v-for="skill in skills" :key="skill.id">
-        <button class="primary" @click="selectSkillMethod(skill)">{{ skill.title }}</button>
+      <div class="box">
+        <button class="rect" v-for="skill in skills" :key="skill.id" @click="selectSkillMethod(skill)">
+          {{ skill.title }}
+        </button>
       </div>
     </div>
   </div>

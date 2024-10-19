@@ -1,9 +1,7 @@
-<template>
-    <div>
-      <select v-model="selectedNumber" id="numberSelect" @change="emitSelectedNumber">
-        <option v-for="number in numbers" :key="number" :value="number">{{ number }}</option>
-      </select>
-    </div>
+  <template>
+    <select v-model="selectedNumber" id="numberSelect" @change="emitSelectedNumber">
+      <option v-for="number in numbers" :key="number" :value="number">{{ number }}</option>
+     </select>
   </template>
   
   <script>

@@ -75,12 +75,30 @@ footer {
   /* Button text */
   .button-text {
     font-family: SUITE;
-    font-size: 21px;
+    font-size: 20px;
     font-weight: 600;
     line-height: var(--line-height2xs);
-    text-align: left;
+    text-align: center;
   }
-  
+
+  button.rect {
+    width: 200px;
+    height: 60px;
+    background-color: white;
+    color: black;
+    padding: 7px;
+    border-radius: 8px;
+    border: 2px solid black;
+    cursor: pointer;
+    margin: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* 애니메이션 효과 추가 */
+  }
+
+  button.rect:hover {
+    background-color: black;
+    color: white;
+  }
+
 * {
     font-family: 'SUIT-Regular';
 }
@@ -92,7 +110,7 @@ button {
     font-size: 16px; /* 폰트 크기 */
     cursor: pointer; /* 커서 모양 */
     transition: background-color 0.3s ease, transform 0.2s ease; /* 애니메이션 효과 */
-    width: Fixed 164px;
+    width: 164px;
     height: 72px;
     padding: 24px 48px 24px 48px;
     gap: 8px;
@@ -212,5 +230,14 @@ button {
 select {
     width: 100px; /* 너비 설정 */
     padding: 5px; /* 내부 여백 줄이기 */
-    font-size: 12px; /* 글자 크기 줄이기 */
-  }
+    font-size: 32px; /* 글자 크기 줄이기 */
+    background: #894CFF1A;
+    height: 80px;
+    border-radius: 16px;
+    color: #894CFF;
+    border: none;
+    cursor: pointer;
+    font-weight: 800;
+    line-height: 20px;
+    text-align: left;
+}
