@@ -18,8 +18,6 @@
             <video controls autoplay playsinline ref="video" height="400" width="600"></video>
             <div>
               <button class="button-small" id="btn-start-recording" :disabled="disabled" @click="startRec">녹화 시작</button>
-              <button class="button-small" id="btn-stop-recording" :disabled="!disabled" @click="stopRec">녹화 중지</button>
-              <button class="button-small" :disabled="disabled" @click="downloadRec" >다운로드</button>
             </div>
           </div>
         </div>
@@ -27,7 +25,6 @@
     </div>
     <!-- 하단 버튼 -->
     <div class="box">
-      <button class="button-small" v-if="currentQuestion" @click="previousQuestion()">이전 질문</button>
       <button class="button-small" v-if="currentQuestion" @click="nextQuestion(currentQuestion)">다음 질문</button>
       <button class="button-small" style="width: 250px" v-if="currentQuestion" @click="endInterview(currentQuestion)">답변 저장 후 면접 종료하기</button>
     </div>
@@ -56,7 +53,7 @@ export default {
       recognition: null, // SpeechRecognition 객체 저장
       elapsedTime: 0, // 녹화 시간
       timer: null, // 타이머 변수,
-      answerBlob: null
+      answerBlob: null,
     };
   },
   computed: {
@@ -70,13 +67,17 @@ export default {
   },
   mounted() {
     this.autoAnswer = this.answers[this.currentQuestionIndex] || '';
+    this.startRec();
   },
   methods: {
     ...mapMutations(['addInterviewQA', 'decrementQuestionIndex']),
     ...mapActions(['updateInterviewIndex', 'loadInterviewQuestions', 'saveSession']),
     updateAnswer(question) {
-      this.addInterviewQA({"questionId": question.id, "question": question.question, "answer": this.autoAnswer});
+      this.addInterviewQA(
+        {"questionId": question.id, "question": question.question, 
+        "answer": this.autoAnswer, "answerBlob": this.answerBlob});
     },
+    // Deprecated
     previousQuestion() {
       if (this.currentQuestionIndex === 0) {
         alert('첫번째 질문입니다.');
@@ -84,19 +85,23 @@ export default {
       }
       this.decrementQuestionIndex();
     },
-    nextQuestion(question) {
+    async nextQuestion(question) {
+      await this.stopRec();
       if (this.currentQuestionIndex < this.interviewQuestions.length - 1) {
         this.updateAnswer(question);
         this.updateInterviewIndex();
         this.answer = '';
+        await this.startRec();  
       } else {
         this.endInterview(question);
       }
     },
     async endInterview(question) {
+      this.stopRec();
       this.isLoading = true;
       await this.updateAnswer(question);
-      await this.saveSession();
+      //로그인 기능이 추가되면 그때 서버에 데이터 저장하기 (현재 저장하는건 의미없다. 다시 볼 수도 없고)
+      // await this.saveSession();
       this.isLoading = false;
       this.$router.push({ name: 'InterviewResult' });
     },
@@ -140,17 +145,15 @@ export default {
       this.finalTranscripts = []; // 새로운 세션 시작 시 최종 결과 배열 초기화
       this.recognition.start(); // 음성 인식 시작
     },
-    stopWritingDown() {
+    async stopWritingDown() {
       if (this.recognition) { 
-        this.recognition.stop(); // 음성 인식 중지
+        await this.recognition.stop(); // 음성 인식 중지
       }
       this.isRecording = false;
     },
     startRec() {
       this.finalTranscripts = [];
       this.$refs.video.srcObject = null;
-      this.disabled = true;
-      this.isRecording = true; // 녹화 중 상태로 변경
       this.captureCamera(camera => {
         const video = this.$refs["video"];
         video.muted = true;
@@ -167,15 +170,17 @@ export default {
 
         this.startTimer(); // 타이머 시작
       });
-      this.startToWriteDown();
+      // this.startToWriteDown();
+      this.disabled = true;
+      this.isRecording = true; // 녹화 중 상태로 변경
     },
-    stopRec() {
+    async stopRec() {
+      await this.recorder.stopRecording(this.stopRecordingCallback);
+      // await this.stopWritingDown();
+      await this.stopTimer(); // 타이머 중지
+      this.autoAnswer = this.finalTranscripts.join(' ');
       this.disabled = false;
       this.isRecording = false; // 녹화 중 상태 해제
-      this.recorder.stopRecording(this.stopRecordingCallback);
-      this.stopWritingDown();
-      this.stopTimer(); // 타이머 중지
-      this.autoAnswer = this.finalTranscripts.join(' ');
     },
     captureCamera(callback) {
       navigator.mediaDevices
@@ -206,16 +211,6 @@ export default {
       this.recorder.camera.stop();
       this.recorder.destroy();
       this.recorder = null;
-    },
-    downloadRec() {
-      if (!this.answerBlob) {
-        alert('동영상 다운로드에 실패했습니다. 관리자에게 문의해주세요.');
-        return;
-      }
-      const downloadLink = document.createElement('a');
-      downloadLink.href = URL.createObjectURL(this.answerBlob);
-      downloadLink.download = 'mock_interview_video.webm';
-      downloadLink.click();
     },
     startTimer() {
       this.elapsedTime = 0;

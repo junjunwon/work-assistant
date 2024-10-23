@@ -14,13 +14,20 @@
             <thead>
               <tr>
                 <th>질문</th>
-                <th>작성한 답변</th>
+                <th>문항별 답변</th>
+                <th>문항별 영상 다운로드</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item, index) in responseData.questionAnswerResponses" :key="index">
                 <td>{{ item.question }}</td>
                 <td>{{ item.answer || '답변 없음' }}</td>
+                <td>
+                  <button v-if="item.answerBlob" @click="downloadAnswerBlob(item.answerBlob, index)">
+                    영상 다운로드
+                  </button>
+                  <span v-else>저장된 영상 없음</span>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -34,7 +41,7 @@
 </template>
 
 <script>
-import { mapMutations, mapActions } from 'vuex';
+import { mapMutations, mapActions, mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -49,15 +56,29 @@ export default {
     };
   },
   async mounted() {
-    const sessionResponse = await this.getSessionResult();
-    this.responseData = sessionResponse.data;
+    // 서버 데이터로 로그인 기능 개발 후 작업
+    // const sessionResponse = await this.getSessionResult();
+    // this.responseData = sessionResponse.data;
+    this.responseData.sessionId = this.$store.state.sessionId;
+    this.responseData.interviewTitle = this.$store.state.selectedInterview.title;
+    this.responseData.skillTitle = this.$store.state.selectedSkill.title;
+    this.responseData.questionAnswerResponses = this.$store.state.answers;
     if (this.responseData !== null) {
       this.showingResult = true;
     }
   },
+  computed: {
+    ...mapGetters(['getAnswers', 'getSelectedInterview', 'getSelectedSkill', 'getSessionId']),
+  },
   methods: {
     ...mapMutations(['resetState']),
     ...mapActions(['saveInterviewResults', 'getSessionResult']),
+    downloadAnswerBlob(blob, index) {
+      const downloadLink = document.createElement('a');
+      downloadLink.href = URL.createObjectURL(blob); // Blob을 URL로 변환
+      downloadLink.download = `mock_interview_video_${index + 1}.webm`; // 파일명 설정
+      downloadLink.click(); // 클릭 이벤트로 다운로드 실행
+    },
     async downloadFeedback() {
       const result = await this.saveInterviewResults();
       if (result) {

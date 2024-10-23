@@ -31,10 +31,11 @@ const store = createStore({
       state.currentQuestionIndex = 0;
     },
     // 개별 질의응답을 추가하는 mutation
-    addInterviewQA(state, answer) {
-      state.answers.push(answer); // 질의응답을 배열에 추가
+    addInterviewQA(state, value) {
+      state.answers.push(value); // 질의응답을 배열에 추가
     },
     resetState(state) {
+      state.sessionId= null
       state.selectedInterview = null;
       state.selectedSkill = null;
       state.interviewQuestions = [];
