@@ -27,7 +27,7 @@ export default {
   },
   data() {
     return {
-      selectedNumber: null
+      selectedNumber: 5
     }
     
   },

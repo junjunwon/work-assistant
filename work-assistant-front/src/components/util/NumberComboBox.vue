@@ -18,7 +18,7 @@
     },
     data() {
       return {
-        selectedNumber: 5
+        selectedNumber: this.modelValue // 부모로부터 초기 값을 받음
       };
     },
     computed: {

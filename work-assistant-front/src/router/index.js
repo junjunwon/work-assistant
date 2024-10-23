@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+//import store from '../store';
 import HomePage from '../views/HomePage.vue';
 import InterviewSelection from '../components/interview/InterviewSelection.vue';
 import InterviewResult from '../components/interview/InterviewResult.vue';
@@ -45,4 +46,13 @@ const router = createRouter({
   routes
 });
 
+// Global before guard
+// router.beforeEach((to, from, next) => {
+//   alert("~");
+//   if (to.path !== '/' && store.state.sessionId !== null) {
+//     next('/');
+//   } else {
+//     next();
+//   }
+// });
 export default router;
