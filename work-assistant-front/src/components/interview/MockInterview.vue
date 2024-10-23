@@ -17,7 +17,7 @@
           <div class="video-area" style="float: center;">
             <video controls autoplay playsinline ref="video" height="400" width="600"></video>
             <div>
-              <button class="button-small" id="btn-start-recording" :disabled="disabled" @click="startRec">녹화 시작</button>
+              <button class="button-small" id="btn-start-recording" :disabled="disabled" @click="startRec">다시 녹화</button>
             </div>
           </div>
         </div>
