@@ -7,7 +7,6 @@
     justify-content: space-evenly; /* 수직 중앙 정렬 */
     align-items: center; /* 가로 중앙 정렬 */
     width: 100%;
-    height: calc(100vh - 90px); /* footer 높이만큼 줄이기 (90px는 footer 높이 예시) */
 }
 
 .box {
@@ -283,4 +282,15 @@ select {
     font-weight: 800;
     line-height: 20px;
     text-align: center;
+}
+
+/* 기본 스크롤바 스타일 */
+::-webkit-scrollbar {
+    width: 8px; /* 스크롤바 너비 */
+    height: 8px; /* 스크롤바 높이 */
+}
+
+/* 핸들 호버 시 색상 변경 */
+::-webkit-scrollbar-thumb:hover {
+    background: #894CFF; /* 호버 색상 */
 }

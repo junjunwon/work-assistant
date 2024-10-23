@@ -23,9 +23,6 @@ export default {
     ...mapMutations(['resetState']),
     goToInterviewSelection() {
       this.$router.push({ name: 'InterviewSelection' });
-    },
-    goToCompanySelection() {
-      alert("준비중입니다");
     }
   }
 };
