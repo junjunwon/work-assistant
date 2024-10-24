@@ -171,16 +171,6 @@ button {
     100% { width: 100%; }
 }
 
-/* 테이블 */
-.response-table {
-    max-width: 600px;
-    /* margin: 20px auto; */
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
   .session-info {
     display: flex;
     align-items: center;
@@ -341,4 +331,41 @@ select {
     border: 2px solid #000;
     color:#000;
     font-weight: 500;
+}
+.container.step5 .title {
+    font-size: 32px;
+}
+.container.step5 .subtitle {
+    margin-top:4px;
+    font-size: 16px;
+}
+.container.step5 .btn_text {
+    font-size: 14px;
+    text-decoration: underline;
+    background: transparent;
+    padding:0;
+    color: black;
+}
+.container.step5 table {
+    margin: 0;
+}
+.container.step5 table th {
+    font-weight: 400;
+    background: black;
+    color:#fff;
+    font-size: 14px;
+    text-align: center;
+}
+.container.step5 table td {
+    font-size: 14px;
+}
+.container.step5 table td:last-child{
+    text-align: center;
+}
+.container.step5 .response-table {
+  width: 800px;
+}
+
+.container.step5 .session-info{
+    margin-bottom:0;
 }

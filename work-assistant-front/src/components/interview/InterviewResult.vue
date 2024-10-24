@@ -1,8 +1,8 @@
 <template>
-  <div class="container">
+  <div class="container step5">
     <div class="card">
-      <h2 class="box">모든 면접이 종료되었습니다.</h2>
-      <p class="box">결과를 확인해볼까요?</p>
+      <h2 class="title">모든 면접이 종료되었습니다.</h2>
+      <p class="subtitle">결과를 확인해볼까요?</p>
       <div v-if="showingResult">
         <!-- 결과 테이블 -->
         <div class="response-table">
@@ -23,7 +23,7 @@
                 <td>{{ item.question }}</td>
                 <td>{{ item.answer || '답변 없음' }}</td>
                 <td>
-                  <button v-if="item.answerBlob" @click="downloadAnswerBlob(item.answerBlob, index)">
+                  <button class="btn_text" v-if="item.answerBlob" @click="downloadAnswerBlob(item.answerBlob, index)">
                     영상 다운로드
                   </button>
                   <span v-else>저장된 영상 없음</span>
