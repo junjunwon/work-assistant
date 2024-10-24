@@ -80,7 +80,7 @@ export default {
     ...mapActions(['updateInterviewIndex', 'loadInterviewQuestions', 'saveSession']),
     updateAnswer(question) {
       this.addInterviewQA(
-        {"questionId": question.id, "question": question.question, 
+        {"questionId": question.id, "question": question.question, "idealAnswer": question.idealAnswer,
         "answer": this.autoAnswer, "answerBlob": this.answerBlob});
     },
     // Deprecated
@@ -108,7 +108,7 @@ export default {
       this.updateAnswer(question);
       //로그인 기능이 추가되면 그때 서버에 데이터 저장하기 (현재 저장하는건 의미없다. 다시 볼 수도 없고)
       // await this.saveSession();
-      this.$router.push({ name: 'InterviewResult' });
+      this.$router.push({ name: 'CoupangAd' });
       this.isLoading = false;
     },
     generateSpeech() {
@@ -204,13 +204,23 @@ export default {
     stopRec() {
       return new Promise((resolve) => {
         this.stopTimer(); // 타이머 중지
-        this.recorder.stopRecording(() => {
-          this.stopRecordingCallback();
-          resolve(); // 녹화가 끝난 후에 resolve 호출
-        });
-        // this.stopWritingDown();
-        this.autoAnswer = this.finalTranscripts.join(' ');
-        this.isRecording = false; // 녹화 중 상태 해제
+        
+        try {
+          // 녹화 중인지 확인하고, recorder가 있는 경우에만 stopRecording 호출
+          this.recorder.stopRecording(this.stopRecordingCallback);
+          this.isRecording = false; // 녹화 중 상태 해제
+          
+          this.recorder.stopRecording(() => {
+            this.stopRecordingCallback();
+            resolve(); // 녹화가 끝난 후에 resolve 호출
+          });
+          // this.stopWritingDown();
+          this.autoAnswer = this.finalTranscripts.join(' ');
+          this.isRecording = false; // 녹화 중 상태 해제
+        } catch (e) {
+          alert('비디오가 로딩중입니다. 잠시만 기다려주세요.');
+        }
+        
       });
     },
     stopRecordingCallback() {

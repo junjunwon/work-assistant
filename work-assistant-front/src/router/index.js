@@ -6,6 +6,7 @@ import InterviewResult from '../components/interview/InterviewResult.vue';
 import MockInterview from '../components/interview/MockInterview.vue';
 import InterviewStart from '../components/interview/InterviewStart.vue';
 import SkillSelection from '../components/interview/SkillSelection.vue';
+import CoupangAd from '@/components/util/\bCoupangAd.vue';
 
 const routes = [
   {
@@ -38,6 +39,11 @@ const routes = [
     name: 'SkillSelection',
     component: SkillSelection,
     props: route => ({ interview: route.params.interview })
+  },
+  {
+    path: '/coupang-ad',
+    name: 'CoupangAd',
+    component: CoupangAd
   }
 ];
 
@@ -47,7 +53,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const allowedPaths = ['/', '/interview-selection', '/skill-selection', '/interview-start'];
+  const allowedPaths = ['/', '/interview-selection', '/skill-selection', '/interview-start', '/coupang-ad'];
   console.log("to.path: " + to.path + ", sessionId: " + store.state.sessionId);
   if (!allowedPaths.includes(to.path) && !store.state.sessionId) {
     next('/');
