@@ -1,33 +1,31 @@
 <template>
-  <div class="container">
+  <div class="container  step4">
     <!-- 상단 로딩바 -->
     <LoadingBar :isLoading="isLoading" />
     <div class="card">
       <!-- 중간의 질문과 비디오 녹화 -->
       <div class="content">
         <div class="question-area">
-          <p>{{ currentQuestionIndex }} / {{ interviewQuestions.length }}</p>
-          <p v-if="currentQuestion">{{ currentQuestion.question }}
+          <p class="nav"><span class="n">{{ currentQuestionIndex }}/{{ interviewQuestions.length }}</span></p>
+          <p class="title" v-if="currentQuestion">{{ currentQuestion.question }}
             <span @click="generateSpeech" class="speaker -on"></span>
           </p>
           <p v-else>로딩 중...</p>
         </div>
 
-        <div class="box" style="width: 800px">
-          <p v-if="isRecording">REC {{ minutes }}분 {{ seconds }}초</p>
-          <div class="video-area" style="float: center;">
+        <div class="box">
+          <div class="video-area">
             <video controls autoplay playsinline ref="video" height="400" width="600"></video>
-            <div>
-              <button class="button-small" id="btn-start-recording" @click="stopAndstartRec">다시 녹화</button>
-            </div>
           </div>
+          <p v-if="isRecording">REC {{ minutes }}분 {{ seconds }}초</p>
+          <button class="btn_next" v-if="currentQuestion" @click="nextQuestion(currentQuestion)"> &gt;</button>
         </div>
       </div>
     </div>
     <!-- 하단 버튼 -->
-    <div class="box">
-      <button class="button-small" v-if="currentQuestion" @click="nextQuestion(currentQuestion)">다음 질문</button>
-      <button class="button-small" style="width: 250px" v-if="currentQuestion" @click="endInterview(currentQuestion)">답변 저장 후 면접 종료하기</button>
+    <div class="">
+      <button class="btn_line" id="btn-start-recording" @click="stopAndstartRec">다시 녹화</button>
+      <button class="btn_line" style="width: 250px" v-if="currentQuestion" @click="endInterview(currentQuestion)">답변 저장 후 면접 종료하기</button>
     </div>
   </div>
 </template>

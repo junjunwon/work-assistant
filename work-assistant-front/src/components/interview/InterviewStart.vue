@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container step3">
     <div class="card">
       <h2 v-if="selectedSkill">
         선택하신 {{ selectedSkill.title }}에 관련한 질문

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container step2">
     <div class="card">
       <h2 class="subtitle" v-if="selectedInterview">{{ selectedInterview.title }}의 상세 기술을 선택해주세요.</h2>
       <h2 v-else>Loading...</h2>
