@@ -6,7 +6,7 @@ import InterviewResult from '../components/interview/InterviewResult.vue';
 import MockInterview from '../components/interview/MockInterview.vue';
 import InterviewStart from '../components/interview/InterviewStart.vue';
 import SkillSelection from '../components/interview/SkillSelection.vue';
-import CoupangAd from '@/components/util/\bCoupangAd.vue';
+import CoupangAd from '@/components/util/CoupangAd.vue';
 
 const routes = [
   {
