@@ -13,11 +13,11 @@
         </div>
 
         <div class="box" style="width: 800px">
-          <p v-if="isRecording">REC {{ elapsedTime }} 초</p>
+          <p v-if="isRecording">REC {{ minutes }}분 {{ seconds }}초</p>
           <div class="video-area" style="float: center;">
             <video controls autoplay playsinline ref="video" height="400" width="600"></video>
             <div>
-              <button class="button-small" id="btn-start-recording" :disabled="disabled" @click="startRec">다시 녹화</button>
+              <button class="button-small" id="btn-start-recording" @click="stopAndstartRec">다시 녹화</button>
             </div>
           </div>
         </div>
@@ -45,20 +45,25 @@ export default {
     return {
       isLoading: false,
       autoAnswer: '',
-      disabled: false,
       recorder: null,
       synth: window.speechSynthesis,
       finalTranscripts: [], // 최종 결과
       isRecording: false, // 음성 인식 상태 확인
       recognition: null, // SpeechRecognition 객체 저장
-      elapsedTime: 0, // 녹화 시간
+      elapsedTime: 180, // 녹화 시간
       timer: null, // 타이머 변수,
       answerBlob: null,
     };
   },
   computed: {
     ...mapState(['interviewQuestions', 'currentQuestionIndex', 'answers']),
-    ...mapGetters(['currentQuestion'])
+    ...mapGetters(['currentQuestion']),
+    minutes() {
+      return Math.floor(this.elapsedTime / 60); // 초를 분으로 변환
+    },
+    seconds() {
+      return this.elapsedTime % 60; // 60으로 나눈 나머지를 초로 표시
+    }
   },
   watch: {
     currentQuestionIndex(newIndex) {
@@ -86,24 +91,24 @@ export default {
       this.decrementQuestionIndex();
     },
     async nextQuestion(question) {
-      await this.stopRec();
       if (this.currentQuestionIndex < this.interviewQuestions.length - 1) {
+        await this.stopRec();
         this.updateAnswer(question);
         this.updateInterviewIndex();
         this.answer = '';
-        await this.startRec();  
+        this.startRec();
       } else {
-        this.endInterview(question);
+        await this.endInterview(question);
       }
     },
     async endInterview(question) {
-      this.stopRec();
       this.isLoading = true;
-      await this.updateAnswer(question);
+      await this.stopRec();
+      this.updateAnswer(question);
       //로그인 기능이 추가되면 그때 서버에 데이터 저장하기 (현재 저장하는건 의미없다. 다시 볼 수도 없고)
       // await this.saveSession();
-      this.isLoading = false;
       this.$router.push({ name: 'InterviewResult' });
+      this.isLoading = false;
     },
     generateSpeech() {
       const text = this.currentQuestion.question;
@@ -145,11 +150,15 @@ export default {
       this.finalTranscripts = []; // 새로운 세션 시작 시 최종 결과 배열 초기화
       this.recognition.start(); // 음성 인식 시작
     },
-    async stopWritingDown() {
+    stopWritingDown() {
       if (this.recognition) { 
-        await this.recognition.stop(); // 음성 인식 중지
+        this.recognition.stop(); // 음성 인식 중지
       }
       this.isRecording = false;
+    },
+    async stopAndstartRec() {
+      await this.stopRec();
+      this.startRec();
     },
     startRec() {
       this.finalTranscripts = [];
@@ -171,16 +180,7 @@ export default {
         this.startTimer(); // 타이머 시작
       });
       // this.startToWriteDown();
-      this.disabled = true;
       this.isRecording = true; // 녹화 중 상태로 변경
-    },
-    async stopRec() {
-      await this.recorder.stopRecording(this.stopRecordingCallback);
-      // await this.stopWritingDown();
-      await this.stopTimer(); // 타이머 중지
-      this.autoAnswer = this.finalTranscripts.join(' ');
-      this.disabled = false;
-      this.isRecording = false; // 녹화 중 상태 해제
     },
     captureCamera(callback) {
       navigator.mediaDevices
@@ -200,23 +200,40 @@ export default {
           console.error(error);
         });
     },
+    stopRec() {
+      return new Promise((resolve) => {
+        this.stopTimer(); // 타이머 중지
+        this.recorder.stopRecording(() => {
+          this.stopRecordingCallback();
+          resolve(); // 녹화가 끝난 후에 resolve 호출
+        });
+        // this.stopWritingDown();
+        this.autoAnswer = this.finalTranscripts.join(' ');
+        this.isRecording = false; // 녹화 중 상태 해제
+      });
+    },
     stopRecordingCallback() {
       const video = this.$refs["video"];
-      video.srcObject = null;
-      video.muted = false;
-      video.volume = 1;
+      if (video) {
+        video.srcObject = null;
+        video.muted = false;
+        video.volume = 1;
+      }
       
       this.answerBlob = this.recorder.getBlob();
-
       this.recorder.camera.stop();
       this.recorder.destroy();
       this.recorder = null;
     },
     startTimer() {
-      this.elapsedTime = 0;
+      this.elapsedTime = 180; // 3분 (180초)에서 시작
       this.timer = setInterval(() => {
-        this.elapsedTime++;
-      }, 1000);
+        this.elapsedTime--; // 1초씩 감소
+        if (this.elapsedTime <= 0) {
+          clearInterval(this.timer); // 타이머 종료
+          this.nextQuestion(this.currentQuestion); // 0초가 되면 자동으로 다음 질문으로 넘어감
+        }
+      }, 1000); // 1초마다 실행
     },
     stopTimer() {
       clearInterval(this.timer);
