@@ -2,7 +2,7 @@
     <div class="ad-container">
       <!-- 쿠팡파트너스 광고 코드 삽입 -->
       <button class='button-small' @click="showResult">결과 바로보기</button>
-      <div v-html="coupangAd"></div>
+      <div @click="showResult" v-html="coupangAd"></div>
     </div>
   </template>
   
