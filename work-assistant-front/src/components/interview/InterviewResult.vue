@@ -24,8 +24,8 @@
                 <td>{{ item.question }}</td>
                 <td>{{ item.idealAnswer || '준비중' }}</td>
                 <td>
-                  <button v-if="item.answerBlob" @click="downloadAnswerBlob(item.answerBlob, index)">
-                    내 답변 다시보기
+                  <button class="btn_text" v-if="item.answerBlob" @click="downloadAnswerBlob(item.answerBlob, index)">
+                    영상 다운로드
                   </button>
                   <span v-else>저장된 영상 없음</span>
                 </td>
