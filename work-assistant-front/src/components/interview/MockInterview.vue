@@ -6,7 +6,7 @@
       <!-- 중간의 질문과 비디오 녹화 -->
       <div class="content">
         <div class="question-area">
-          <p class="nav"><span class="n">{{ currentQuestionIndex }}/{{ interviewQuestions.length }}</span></p>
+          <p class="nav"><span class="n">{{ currentQuestionIndex + 1}}/{{ interviewQuestions.length }}</span></p>
           <p class="title" v-if="currentQuestion">{{ currentQuestion.question }}
             <span @click="generateSpeech" class="speaker -on"></span>
           </p>
