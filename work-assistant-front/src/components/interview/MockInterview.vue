@@ -17,7 +17,10 @@
           <div class="video-area">
             <video controls autoplay playsinline ref="video" height="400" width="600"></video>
           </div>
-          <p v-if="isRecording">REC {{ minutes }}분 {{ seconds }}초</p>
+          <div class="timer-container">
+            <canvas ref="timerCanvas" width="200" height="200"></canvas>
+<!--            <p v-if="isRecording">REC {{ minutes }}분 {{ seconds }}초</p>-->
+          </div>
           <button class="btn_next" v-if="currentQuestion" @click="nextQuestion(currentQuestion)"> &gt;</button>
         </div>
       </div>
@@ -72,6 +75,7 @@ export default {
   mounted() {
     this.autoAnswer = this.answers[this.currentQuestionIndex] || '';
     this.startRec();
+    this.drawTimer();
   },
   methods: {
     ...mapMutations(['addInterviewQA', 'decrementQuestionIndex']),
@@ -234,6 +238,38 @@ export default {
       this.recorder.destroy();
       this.recorder = null;
     },
+    drawTimer() {
+      const canvas = this.$refs.timerCanvas;
+      const ctx = canvas.getContext('2d');
+      const radius = 80; // 원의 반지름
+
+      const draw = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // 이전 프레임 지우기
+        ctx.beginPath();
+
+        const startAngle = 1.5 * Math.PI; // 시작 각도 (12시 방향)
+        const endAngle = startAngle + (this.elapsedTime / 180) * 2 * Math.PI; // 남은 시간에 따른 각도 (시계 방향)
+
+        ctx.arc(100, 100, radius, startAngle, endAngle, false); // false로 시계 방향
+        ctx.lineWidth = 15;
+        ctx.strokeStyle = '#894CFF'; // 원 색상
+        ctx.stroke();
+
+        // 텍스트 그리기
+        ctx.fillStyle = '#894CFF'; // 텍스트 색상
+        ctx.font = '20px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(`${this.minutes}분 ${this.seconds}초`, 100, 100); // 원 안에 텍스트 추가
+
+        if (this.elapsedTime > 0) {
+          requestAnimationFrame(draw); // 계속 그리기
+        }
+      };
+
+      draw(); // 첫 번째 호출
+    },
+
     startTimer() {
       this.elapsedTime = 180; // 3분 (180초)에서 시작
       this.timer = setInterval(() => {
