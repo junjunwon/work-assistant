@@ -13,9 +13,9 @@
           <table>
             <thead>
               <tr>
-                <th>질문</th>
-                <th>문항별 추천 답변</th>
-                <th>문항별 영상 다운로드</th>
+                <th style="width: 280px;">질문</th>
+                <th>추천 답변</th>
+                <th style="width: 100px;">영상 다운로드</th>
                 <!-- <th>문항별 ChatGPT 답변</th> -->
               </tr>
             </thead>
@@ -25,7 +25,7 @@
                 <td>{{ item.idealAnswer || '준비중' }}</td>
                 <td>
                   <button class="btn_text" v-if="item.answerBlob" @click="downloadAnswerBlob(item.answerBlob, index)">
-                    영상 다운로드
+                    Download
                   </button>
                   <span v-else>저장된 영상 없음</span>
                 </td>

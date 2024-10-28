@@ -21,7 +21,7 @@
             <canvas ref="timerCanvas" width="200" height="200"></canvas>
 <!--            <p v-if="isRecording">REC {{ minutes }}분 {{ seconds }}초</p>-->
           </div>
-          <button class="btn_next" v-if="currentQuestion" @click="nextQuestion(currentQuestion)"> &gt;</button>
+          <button class="btn_next chevron right" v-if="currentQuestion" @click="nextQuestion(currentQuestion)"></button>
         </div>
       </div>
     </div>
@@ -245,8 +245,16 @@ export default {
 
       const draw = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height); // 이전 프레임 지우기
-        ctx.beginPath();
 
+        // 배경 원 그리기
+        ctx.beginPath();
+        ctx.arc(100, 100, radius, 0, 2 * Math.PI); // 전체 원
+        ctx.lineWidth = 15;
+        ctx.strokeStyle = '#d1d1d1'; // 배경 색상
+        ctx.stroke();
+
+        // 줄어드는 원 그리기
+        ctx.beginPath();
         const startAngle = 1.5 * Math.PI; // 시작 각도 (12시 방향)
         const endAngle = startAngle + (this.elapsedTime / 180) * 2 * Math.PI; // 남은 시간에 따른 각도 (시계 방향)
 
