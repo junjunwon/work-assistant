@@ -59,6 +59,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-activemq'
 	implementation 'org.apache.activemq:activemq-web-console:5.17.5'
 
+	// limit rate
+	implementation 'com.bucket4j:bucket4j-core:8.10.1'
 
 	// db
 	implementation 'org.postgresql:postgresql:42.5.0'
