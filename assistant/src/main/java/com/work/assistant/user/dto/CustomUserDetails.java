@@ -1,4 +1,4 @@
-package com.work.assistant.security.service;
+package com.work.assistant.user.dto;
 
 import com.work.assistant.user.entity.User;
 import com.work.assistant.user.entity.UserRoleEnum;
@@ -10,13 +10,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class UserDetailsImpl implements UserDetails {
+@Getter
+public class CustomUserDetails implements UserDetails {
 
-    @Getter
     private User user;
     private String username;
 
-    public UserDetailsImpl(User user, String username) {
+    public CustomUserDetails(User user, String username) {
         this.user = user;
         this.username = username;
     }

@@ -2,23 +2,19 @@ package com.work.assistant.security.jwt;
 
 import com.work.assistant.security.dto.TokenResponse;
 import com.work.assistant.user.entity.UserRoleEnum;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.UnsupportedJwtException;
-import io.jsonwebtoken.security.Keys;
 
 import java.security.Key;
 import java.util.Base64;
@@ -52,7 +48,7 @@ public class JwtProvider {
             .decode(secretKey);// Base64로 인코딩된 값을 시크릿키 변수에 저장한 값을 디코딩하여 바이트 배열로 변환
         //* Base64 (64진법) : 바이너리(2진) 데이터를 문자 코드에 영향을 받지 않는 공통 ASCII문자로 표현하기 위해 만들어진 인코딩
         key = Keys.hmacShaKeyFor(
-            bytes);//디코팅된 바이트 배열을 기반으로 HMAC-SHA 알고르즘을 사용해서 Key객체로 반환 , 이를 key 변수에 대입
+            bytes);//디코팅된 바이트 배열을 기반으로 HMAC-SHA 알고리즘을 사용해서 Key객체로 반환 , 이를 key 변수에 대입
     }
 
     public String resolveToken(HttpServletRequest request) {

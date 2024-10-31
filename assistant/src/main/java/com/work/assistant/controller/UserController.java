@@ -2,40 +2,39 @@ package com.work.assistant.controller;
 
 import com.work.assistant.security.dto.TokenResponse;
 import com.work.assistant.security.jwt.JwtProvider;
-import com.work.assistant.security.service.UserDetailsImpl;
+import com.work.assistant.user.dto.CustomUserDetails;
 import com.work.assistant.user.dto.LoginRequest;
 import com.work.assistant.user.dto.SignUpRequest;
 import com.work.assistant.user.dto.UserResponse;
-import com.work.assistant.user.service.UserService;
+import com.work.assistant.user.service.UserServiceImpl;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
     private final JwtProvider jwtProvider;
 
-    @PostMapping("/signup")
-    public ResponseEntity signup(@RequestBody @Valid SignUpRequest signUpRequest) {
-        if (!signUpRequest.getPassword().equals(signUpRequest.getPassword2())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
-        }
-        userService.signup(signUpRequest);
-        return ResponseEntity.ok().build();
+    @PostMapping("/registration")
+    public ResponseEntity registration(@RequestBody @Valid SignUpRequest signUpRequest) {
+        userServiceImpl.signup(signUpRequest);
+        return ResponseEntity.ok("회원가입 성공");
     }
 
     @PostMapping("/login")
     public TokenResponse login(@RequestBody @Valid LoginRequest loginRequest, HttpServletResponse response) {
-        UserResponse user = userService.login(loginRequest);
+        UserResponse user = userServiceImpl.login(loginRequest);
         TokenResponse token = jwtProvider.createTokenByLogin(user.getEmail(), user.getRole());
         response.addHeader(JwtProvider.AUTHORIZATION_HEADER, token.getAccessToken());
 
@@ -44,8 +43,10 @@ public class UserController {
 
     @GetMapping("/me")
     @PreAuthorize("hasAnyRole('ADMIN','MEMBER')")
-    public UserResponse getMyInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return UserResponse.of(userDetails.getUser());
-    }
+    public ResponseEntity<CustomUserDetails> authenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails currentUser = (CustomUserDetails) authentication.getPrincipal();
 
+        return ResponseEntity.ok(currentUser);
+    }
 }

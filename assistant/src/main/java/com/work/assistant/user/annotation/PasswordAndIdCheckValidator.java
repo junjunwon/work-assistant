@@ -1,4 +1,4 @@
-package com.work.assistant.user.dto;
+package com.work.assistant.user.annotation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

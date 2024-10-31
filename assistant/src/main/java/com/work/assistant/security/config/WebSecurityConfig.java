@@ -17,8 +17,9 @@ import org.springframework.core.Ordered;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,6 +27,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -40,15 +42,53 @@ import java.io.IOException;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
 @EnableMethodSecurity
 public class WebSecurityConfig implements WebMvcConfigurer {
 
     private final JwtProvider jwtProvider;
-
+    private final UserDetailsService userDetailsService;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        //AuthenticationManagerBuilder 생성
+        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.userDetailsService(userDetailsService);
+
+        AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
+
+        http
+            .httpBasic(AbstractHttpConfigurer::disable)
+            .csrf(AbstractHttpConfigurer::disable)
+            .cors(Customizer.withDefaults())
+            .headers(header -> header.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+            .authenticationManager(authenticationManager)
+            .authorizeHttpRequests(
+                registry -> registry
+//                    .requestMatchers("/**").permitAll()
+//                    .requestMatchers("/api/*").permitAll()
+//                    .requestMatchers("/api/**").permitAll()
+                    .requestMatchers("/api/public/**").permitAll()
+                    .requestMatchers("/api/health").permitAll()
+                    .requestMatchers("/api/user/login").permitAll()
+                    .requestMatchers("/api/user/registration").permitAll()
+                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .anyRequest().authenticated()
+            )
+            .addFilterBefore(new JwtAuthFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
+            .sessionManagement(
+                config -> config
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .exceptionHandling(
+                config -> config
+                    .authenticationEntryPoint(customAuthenticationEntryPoint)   // 인증, 401 에러 처리
+                    .accessDeniedHandler(customAccessDeniedHandler)             // 권한, 403 에러 처리
+            );
+
+        return http.build();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -60,39 +100,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     public WebSecurityCustomizer webSecurityCustomizer() {
         // h2-console 사용 및 resources 접근 허용 설정
         return (web) -> web.ignoring()
-            .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
-    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .httpBasic(AbstractHttpConfigurer::disable)
-            .csrf(AbstractHttpConfigurer::disable)
-            .cors(Customizer.withDefaults())
-            .headers(header -> header.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-            .authorizeHttpRequests(
-                registry -> registry
-                    .requestMatchers("/**").permitAll() // temp
-                    .requestMatchers("/api/**").permitAll() // temp
-                    .requestMatchers("/api/*").permitAll() // temp
-                    .requestMatchers("/api/health").permitAll()
-                    .requestMatchers("/api/users/login").permitAll()
-                    .requestMatchers("/api/users/signup").permitAll()
-                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                    .anyRequest().authenticated()
-            )
-            .addFilterBefore(new JwtAuthFilter(jwtProvider),
-                UsernamePasswordAuthenticationFilter.class)
-            .sessionManagement(
-                config -> config
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .exceptionHandling(
-                config -> config
-                    .authenticationEntryPoint(customAuthenticationEntryPoint)   // 인증, 401 에러 처리
-                    .accessDeniedHandler(customAccessDeniedHandler)             // 권한, 403 에러 처리
-            );
-
-        return http.build();
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     @Override
