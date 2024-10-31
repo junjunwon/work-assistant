@@ -3,12 +3,14 @@ package com.work.assistant.common.interceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Enumeration;
 
 @Slf4j
+@Component
 public class LoggerInterceptor implements HandlerInterceptor {
 
     /**
@@ -16,7 +18,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
      **/
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
-        log.info("[preHandle][" + request + "]" + "[" + request.getMethod() + "]" + request.getRequestURI() + getParameters(request));
+        log.info("[preHandle]" + "[" + request.getMethod() + "]" + request.getRequestURI() + getParameters(request));
         return true;
     }
 
@@ -25,7 +27,6 @@ public class LoggerInterceptor implements HandlerInterceptor {
      **/
     @Override
     public void postHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler, final ModelAndView modelAndView) throws Exception {
-        log.info("[postHandle][" + request + "]");
     }
 
     /**
@@ -35,7 +36,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
     public void afterCompletion(final HttpServletRequest request, final HttpServletResponse response, final Object handler, final Exception ex) throws Exception {
         if (ex != null)
             ex.printStackTrace();
-        log.info("[afterCompletion][" + request + "][exception: " + ex + "]");
+        log.info("[afterCompletion][" + request.getRequestURI() + getParameters(request) + "][exception: " + ex + "]");
     }
 
     private String getParameters(final HttpServletRequest request) {
