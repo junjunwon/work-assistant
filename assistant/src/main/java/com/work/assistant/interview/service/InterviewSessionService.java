@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class InterviewSessionService {
 
-    private final InterviewSessionDaoService interviewSessionDaoService;
+    private final InterviewSessionDAOService interviewSessionDaoService;
     private final InterviewAnswerDaoService interviewAnswerDaoService;
     private final InterviewDAOService interviewDAOService;
     private final SkillDAOService skillDAOService;

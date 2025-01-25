@@ -11,7 +11,7 @@ import static com.work.assistant.common.exception.ExceptionStatus.WRONG_SESSION;
 
 @Component
 @RequiredArgsConstructor
-public class InterviewSessionDaoService {
+public class InterviewSessionDAOService {
 
     private final InterviewSessionRepository interviewSessionRepository;
 

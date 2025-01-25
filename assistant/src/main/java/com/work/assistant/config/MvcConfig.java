@@ -4,11 +4,10 @@ import com.work.assistant.common.interceptor.LoggerInterceptor;
 import com.work.assistant.common.interceptor.RateLimitInterceptor;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@EnableWebMvc
+//@EnableWebMvc
 @Configuration
 @ComponentScan
 public class MvcConfig implements WebMvcConfigurer {

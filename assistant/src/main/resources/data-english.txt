@@ -1,16 +1,16 @@
-INSERT INTO job (id, title, created_at, updated_at, created_by, updated_by) VALUES (1, 'Design', NOW(), NOW(), 1, 1);
-INSERT INTO job (id, title, created_at, updated_at, created_by, updated_by) VALUES (2, 'Development', NOW(), NOW(), 1, 1);
-INSERT INTO job (id, title, created_at, updated_at, created_by, updated_by) VALUES (3, 'Planning', NOW(), NOW(), 1, 1);
-INSERT INTO job (id, title, created_at, updated_at, created_by, updated_by) VALUES (4, 'Video Editing', NOW(), NOW(), 1, 1);
+INSERT INTO interview (id, title, created_at, updated_at, created_by, updated_by) VALUES (1, 'Design', NOW(), NOW(), 1, 1);
+INSERT INTO interview (id, title, created_at, updated_at, created_by, updated_by) VALUES (2, 'Development', NOW(), NOW(), 1, 1);
+INSERT INTO interview (id, title, created_at, updated_at, created_by, updated_by) VALUES (3, 'Planning', NOW(), NOW(), 1, 1);
+INSERT INTO interview (id, title, created_at, updated_at, created_by, updated_by) VALUES (4, 'Video Editing', NOW(), NOW(), 1, 1);
 
 -- JobRole 데이터 삽입
-INSERT INTO role (id, title, job_id, created_at, updated_at, created_by, updated_by) VALUES (1, 'Frontend', 2, NOW(), NOW(), 1, 1);
-INSERT INTO role (id, title, job_id, created_at, updated_at, created_by, updated_by) VALUES (2, 'Backend', 2, NOW(), NOW(), 1, 1);
-INSERT INTO role (id, title, job_id, created_at, updated_at, created_by, updated_by) VALUES (3, 'App Development', 2, NOW(), NOW(), 1, 1);
-INSERT INTO role (id, title, job_id, created_at, updated_at, created_by, updated_by) VALUES (4, 'UI/UX Design', 1, NOW(), NOW(), 1, 1);
-INSERT INTO role (id, title, job_id, created_at, updated_at, created_by, updated_by) VALUES (5, 'Graphic Design', 1, NOW(), NOW(), 1, 1);
-INSERT INTO role (id, title, job_id, created_at, updated_at, created_by, updated_by) VALUES (6, 'Project Management', 3, NOW(), NOW(), 1, 1);
-INSERT INTO role (id, title, job_id, created_at, updated_at, created_by, updated_by) VALUES (7, 'Video Editing', 4, NOW(), NOW(), 1, 1);
+INSERT INTO skill (id, title, job_id, created_at, updated_at, created_by, updated_by) VALUES (1, 'Frontend', 2, NOW(), NOW(), 1, 1);
+INSERT INTO skill (id, title, job_id, created_at, updated_at, created_by, updated_by) VALUES (2, 'Backend', 2, NOW(), NOW(), 1, 1);
+INSERT INTO skill (id, title, job_id, created_at, updated_at, created_by, updated_by) VALUES (3, 'App Development', 2, NOW(), NOW(), 1, 1);
+INSERT INTO skill (id, title, job_id, created_at, updated_at, created_by, updated_by) VALUES (4, 'UI/UX Design', 1, NOW(), NOW(), 1, 1);
+INSERT INTO skill (id, title, job_id, created_at, updated_at, created_by, updated_by) VALUES (5, 'Graphic Design', 1, NOW(), NOW(), 1, 1);
+INSERT INTO skill (id, title, job_id, created_at, updated_at, created_by, updated_by) VALUES (6, 'Project Management', 3, NOW(), NOW(), 1, 1);
+INSERT INTO skill (id, title, job_id, created_at, updated_at, created_by, updated_by) VALUES (7, 'Video Editing', 4, NOW(), NOW(), 1, 1);
 
 -- 새로운 카테고리 추가
 INSERT INTO interview_category (id, name) VALUES
@@ -128,7 +128,7 @@ INSERT INTO interview_question (id, question, ideal_answer, role_id, interview_c
                 (78, 'How do you approach color theory in your designs?', 'Color theory helps guide the choices of colors that work well together and convey the desired mood or message.', 5, 10, NOW(), NOW(), 1, 1),
                 (79, 'What are the key elements of a well-balanced layout in graphic design?', 'A well-balanced layout includes visual hierarchy, alignment, and consistent spacing.', 5, 10, NOW(), NOW(), 1, 1),
                 (80, 'How do you use typography to enhance the readability of a design?', 'Choosing appropriate fonts, sizes, and line heights can greatly improve readability.', 5, 10, NOW(), NOW(), 1, 1),
-                (81, 'What is the role of branding in graphic design?', 'Branding creates a cohesive image and identity for a business through consistent use of logos, colors, and design styles.', 5, 10, NOW(), NOW(), 1, 1),
+                (81, 'What is the skill of branding in graphic design?', 'Branding creates a cohesive image and identity for a business through consistent use of logos, colors, and design styles.', 5, 10, NOW(), NOW(), 1, 1),
                 (82, 'Explain the process of designing a logo from concept to final product.', 'Logo design involves brainstorming, sketching, refinement, and finalizing the design in vector format.', 5, 10, NOW(), NOW(), 1, 1),
                 (83, 'How do you ensure consistency across different design assets?', 'By using style guides, templates, and consistent use of typography, color, and spacing.', 5, 10, NOW(), NOW(), 1, 1),
                 (84, 'How do you handle revisions and feedback from clients in the design process?', 'Through clear communication and understanding the client''s goals while maintaining the integrity of the design.', 5, 10, NOW(), NOW(), 1, 1),

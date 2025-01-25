@@ -70,6 +70,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 //                    .requestMatchers("/**").permitAll()
 //                    .requestMatchers("/api/*").permitAll()
 //                    .requestMatchers("/api/**").permitAll()
+                    .requestMatchers("/", "/index.html", "/static/**", "/static/img/**").permitAll()
                     .requestMatchers("/api/public/**").permitAll()
                     .requestMatchers("/api/health").permitAll()
                     .requestMatchers("/api/user/login").permitAll()
@@ -113,12 +114,6 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     }
 
     @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("forward:/index.html");
-        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
-    }
-
-    @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/")
@@ -130,6 +125,12 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                         return requestedResource.exists() && requestedResource.isReadable() ? requestedResource : new ClassPathResource("/static/index.html");
                     }
                 });
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("forward:/index.html");
+        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
     }
 
     @Bean

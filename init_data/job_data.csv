@@ -1,0 +1,5 @@
+id,title,created_at,updated_at,created_by,updated_by
+1,디자인,NOW(),NOW(),1,1
+2,개발,NOW(),NOW(),1,1
+3,기획,NOW(),NOW(),1,1
+4,영상 편집,NOW(),NOW(),1,1
